@@ -24,7 +24,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.steppeview.R
 import kotlinx.coroutines.launch
-// ... (imports)
+
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -48,16 +48,16 @@ fun QuestionnaireModalBottomSheet(
 
                 formSteps.getOrNull(currentStep)?.invoke {
                     if (currentStep < formSteps.size - 1) {
-                        currentStep += 1 // Move to the next step
+                        currentStep += 1
                     } else {
-                        // Last step, show the success message
+
                         showSuccessMessage = true
                     }
                 }
             }
         }
     ) {
-        // Content to trigger the BottomSheet
+
         Column(
             modifier = Modifier.fillMaxSize().padding(16.dp),
             horizontalAlignment = Alignment.CenterHorizontally
@@ -65,8 +65,8 @@ fun QuestionnaireModalBottomSheet(
             Text(text = "Start Questionnaire", fontSize = 20.sp)
             Button(
                 onClick = {
-                    currentStep = 0 // Reset to the first step
-                    showSuccessMessage = false // Reset the success message state
+                    currentStep = 0
+                    showSuccessMessage = false
                     scope.launch { scaffoldState.bottomSheetState.show() }
                 },
                 modifier = Modifier.padding(top = 16.dp)
@@ -77,17 +77,17 @@ fun QuestionnaireModalBottomSheet(
     }
 
     if (showSuccessMessage) {
-        SuccessMessageForm(onDismiss = { showSuccessMessage = false }) // Show the success message if needed
+        SuccessMessageForm(onDismiss = { showSuccessMessage = false })
     }
 }
 
-// ... (other functions remain the same)
+
 
 
 @Composable
 fun StepThreeContent(onNextStep: () -> Unit, totalSteps: Int) {
     var selectedEmoji by remember { mutableStateOf("") }
-    var showSuccessMessage by remember { mutableStateOf(false) } // Track if success message is shown
+    var showSuccessMessage by remember { mutableStateOf(false) }
 
     /*StepBar(currentStep = 3, totalSteps = totalSteps)*/
     Column(
@@ -100,7 +100,7 @@ fun StepThreeContent(onNextStep: () -> Unit, totalSteps: Int) {
             Text(text = "Step 3: Select an emoji")
         }
 
-        if (!showSuccessMessage) { // Show the EmojiList only if success message is not shown
+        if (!showSuccessMessage) {
             EmojiList(onEmojiSelected = { selectedEmoji = it })
         }
 
@@ -108,15 +108,14 @@ fun StepThreeContent(onNextStep: () -> Unit, totalSteps: Int) {
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.Center
         ) {
-            if (!showSuccessMessage) { // Show the "Next" button only if success message is not shown
+            if (!showSuccessMessage) {
                 Button(
                     onClick = {
-                        // Validate input here if needed
                         if (selectedEmoji.isNotEmpty()) {
                             onNextStep()
                         }
                         if (selectedEmoji.isNotEmpty() && totalSteps == 3) {
-                            showSuccessMessage = true // Show the success message when the button is clicked
+                            showSuccessMessage = true
                         }
                     },
                     enabled = selectedEmoji.isNotEmpty(),
@@ -156,7 +155,7 @@ fun StepOneContent(onNextStep: () -> Unit, totalSteps: Int) {
             Text(text = "veuillez choisir ?")
         }
 
-        if (!showSuccessMessage) { // Show the CheckboxList only if success message is not shown
+        if (!showSuccessMessage) {
             CheckboxList(onOptionSelected = { selectedOption = it })
         }
 
@@ -164,7 +163,7 @@ fun StepOneContent(onNextStep: () -> Unit, totalSteps: Int) {
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.Center
         ) {
-            if (!showSuccessMessage) { // Show the "Next" button only if success message is not shown
+            if (!showSuccessMessage) {
                 Button(
                     onClick = {
                         // Validate input here if needed
@@ -203,7 +202,7 @@ fun StepTwoContent(onNextStep: () -> Unit, totalSteps: Int) {
     ) {
         Text(text = "Step 2: Enter your text")
 
-        if (!showSuccessMessage) { // Show the TextField only if success message is not shown
+        if (!showSuccessMessage) {
             var currentWordCount by remember { mutableStateOf(textValue.split("\\s+".toRegex()).size) }
 
             Card(
@@ -242,15 +241,14 @@ fun StepTwoContent(onNextStep: () -> Unit, totalSteps: Int) {
                 )
             }
 
-            if (!showSuccessMessage) { // Show the "Next" button only if success message is not shown
+            if (!showSuccessMessage) {
                 Button(
                     onClick = {
-                        // Validate input here if needed
                         if (textValue.isNotBlank()) {
                             onNextStep()
                         }
                         if (textValue.isNotBlank() && totalSteps == 3) {
-                            showSuccessMessage = true // Show the success message when the button is clicked
+                            showSuccessMessage = true
                         }
                     },
                     enabled = textValue.isNotBlank(),
@@ -274,10 +272,10 @@ fun StepFourContent(onFinish: () -> Unit, totalSteps: Int) {
     var rating by remember { mutableStateOf(0) }
     var showSuccessMessage by remember { mutableStateOf(false) }
     if (showSuccessMessage) {
-        // Show the success message
+
         SuccessMessageForm(onDismiss = { showSuccessMessage = false })
     } else {
-        // Show the rating form
+
         Column(
             modifier = Modifier.fillMaxWidth().padding(16.dp)
         ) {
@@ -293,7 +291,7 @@ fun StepFourContent(onFinish: () -> Unit, totalSteps: Int) {
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.Center
             ) {
-                Spacer(modifier = Modifier.size(16.dp)) // Add a spacer to adjust the star size
+                Spacer(modifier = Modifier.size(16.dp))
                 StarRating(
                     maxRating = 5,
                     rating = rating,
@@ -301,22 +299,20 @@ fun StepFourContent(onFinish: () -> Unit, totalSteps: Int) {
                         rating = newRating
                     }
                 )
-                Spacer(modifier = Modifier.size(16.dp)) // Add a spacer to adjust the star size
+                Spacer(modifier = Modifier.size(16.dp))
             }
 
             if (!showSuccessMessage) {
-                // Show the "Finish" button only if success message is not shown and rating > 0
                 Button(
                     onClick = {
-                        // Validate input here if needed
                         if (rating > 0) {
                             onFinish()
                             if (totalSteps == 3) {
-                                showSuccessMessage = true // Show the success message when the button is clicked
+                                showSuccessMessage = true
                             }
                         }
                     },
-                    enabled = rating > 0, // Enable/disable the button based on rating
+                    enabled = rating > 0,
                     modifier = Modifier
                         .padding(top = 16.dp)
                         .fillMaxWidth()
@@ -327,14 +323,6 @@ fun StepFourContent(onFinish: () -> Unit, totalSteps: Int) {
         }
     }
 }
-
-
-
-
-
-
-
-
 @Composable
 fun SuccessMessageForm(onDismiss: () -> Unit) {
     Column(
@@ -383,7 +371,7 @@ fun Star(isFilled: Boolean, onClick: () -> Unit) {
         contentDescription = null,
         tint = iconColor,
         modifier = Modifier
-            .size(48.dp) // Set the desired star size, e.g., 48.dp
+            .size(48.dp)
             .clickable(onClick = onClick)
     )
 }
@@ -479,7 +467,7 @@ fun EmojiList(onEmojiSelected: (String) -> Unit) {
 
     Row(
         modifier = Modifier.fillMaxWidth().padding(vertical = 8.dp),
-        horizontalArrangement = Arrangement.SpaceEvenly // Align emojis horizontally
+        horizontalArrangement = Arrangement.SpaceEvenly
     ) {
         emojis.forEachIndexed { index, emojiResId ->
             val isSelected = index == selectedEmojiIndex
@@ -538,7 +526,5 @@ fun SurveyForms() {
 @Preview
 @Composable
 fun PreviewQuestionnaireModalBottomSheet() {
-
     SurveyForms()
-
 }
