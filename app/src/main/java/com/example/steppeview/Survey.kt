@@ -437,7 +437,8 @@ fun CheckboxList(onOptionSelected: (String) -> Unit) {
             Box(
                 modifier = Modifier
                     .size(24.dp)
-                    .background(if (isChecked.value) Color.Green else Color.Transparent)
+                    .padding(2.dp) // Add padding to contain the color inside the checkbox
+                    .background(if (isChecked.value) Color.Yellow else Color.Transparent)
             ) {
                 Checkbox(
                     checked = isChecked.value,
@@ -453,6 +454,7 @@ fun CheckboxList(onOptionSelected: (String) -> Unit) {
         }
     }
 }
+
 
 @Composable
 fun EmojiList(onEmojiSelected: (String) -> Unit) {
