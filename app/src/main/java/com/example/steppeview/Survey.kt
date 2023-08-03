@@ -13,6 +13,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
@@ -203,9 +204,7 @@ fun StepOneContent(onNextStep: () -> Unit, totalSteps: Int) {
 @Composable
 fun StepTwoContent(onNextStep: () -> Unit, totalSteps: Int) {
     var textValue by remember { mutableStateOf("") }
-
     val maxWordCount = 500
-
     Column(
         modifier = Modifier.fillMaxWidth().padding(16.dp)
     ) {
@@ -237,11 +236,9 @@ fun StepTwoContent(onNextStep: () -> Unit, totalSteps: Int) {
                         unfocusedIndicatorColor = Color.Transparent
                     )
                 )
-
                 Spacer(modifier = Modifier.height(8.dp))
             }
         }
-
         Row(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.End
@@ -252,7 +249,6 @@ fun StepTwoContent(onNextStep: () -> Unit, totalSteps: Int) {
                 modifier = Modifier.padding(top = 8.dp)
             )
         }
-
         Button(
             onClick = {
                 // Validate input here if needed
@@ -269,10 +265,6 @@ fun StepTwoContent(onNextStep: () -> Unit, totalSteps: Int) {
         }
     }
 }
-
-
-
-
 @Composable
 fun StepFourContent(onFinish: () -> Unit) {
     var rating by remember { mutableStateOf(0) }
@@ -280,7 +272,7 @@ fun StepFourContent(onFinish: () -> Unit) {
 
     if (!showSuccessMessage) {
         CustomFormContent(
-            title = "Step 4: Rate with stars",
+            title = "Step 4: Rate with starssdfksmlflmsd;mlsd;vmsd;msd;md;fm;df",
             buttonText = "Finish",
             onButtonClicked = {
                 if (rating > 0) {
@@ -310,45 +302,43 @@ fun StepFourContent(onFinish: () -> Unit) {
     }
 }
 
+
 @Composable
 fun CustomFormContent(
-    title: String,
+    title: String? = null,
+    image: Painter? = null,
     buttonText: String,
     onButtonClicked: () -> Unit,
     content: @Composable () -> Unit
 ) {
     Column(
-        modifier = Modifier.fillMaxWidth().padding(16.dp)
+        modifier = Modifier.fillMaxWidth().padding(1.dp)
     ) {
-        Text(
-            text = title,
-            fontSize = 20.sp,
-            textAlign = TextAlign.Center,
-            modifier = Modifier.fillMaxWidth()
-        )
+        if (title != null) {
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween
+            ){
+                Text(
+                    text = title,
+                    style = TextStyle(fontSize = 18.sp, fontWeight = FontWeight.Bold),
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier.padding(top = 8.dp)
+                )
+            }
 
-        content()
-
-        Button(
-            onClick = { onButtonClicked() },
-            modifier = Modifier
-                .padding(top = 16.dp)
-                .fillMaxWidth()
-        ) {
-            Text(text = buttonText)
         }
-    }
-}
 
-@Composable
-fun CustomFormContent(
-    buttonText: String,
-    onButtonClicked: () -> Unit,
-    content: @Composable () -> Unit
-) {
-    Column(
-        modifier = Modifier.fillMaxWidth().padding(top = 16.dp) // Add top padding
-    ) {
+        if (image != null) {
+            Image(
+                painter = image,
+                contentDescription = "Custom Image",
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 16.dp, vertical = 8.dp)
+            )
+        }
+
         content()
 
         Button(
@@ -365,32 +355,29 @@ fun CustomFormContent(
 @Composable
 fun SuccessMessageForm(onDismiss: () -> Unit) {
     CustomFormContent(
+        image = painterResource(id = R.drawable.bien_jaune_104),
         buttonText = "Close",
         onButtonClicked = onDismiss
     ) {
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 16.dp, vertical = 2.dp),
+                .padding(horizontal = 16.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Image(
-                painter = painterResource(id = R.drawable.bien_104_gris),
-                contentDescription = "Success Image",
-                modifier = Modifier
-                    .size(100.dp)
-                    .padding(16.dp)
-            )
-
             Text(
                 text = "Congratulations on completing the questionnaire!",
                 style = TextStyle(fontSize = 18.sp, fontWeight = FontWeight.Bold),
                 textAlign = TextAlign.Center,
                 modifier = Modifier.padding(top = 8.dp)
             )
+
+            // Additional content specific to SuccessMessageForm, if needed
         }
     }
 }
+
+
 
 @Composable
 fun StarRating(
