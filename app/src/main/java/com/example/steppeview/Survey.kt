@@ -17,6 +17,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
@@ -319,15 +320,35 @@ fun CustomFormContent(
     Column(
         modifier = Modifier.fillMaxWidth().padding(16.dp)
     ) {
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.Center
+        Text(
+            text = title,
+            fontSize = 20.sp,
+            textAlign = TextAlign.Center,
+            modifier = Modifier.fillMaxWidth()
+        )
+
+        content()
+
+        Button(
+            onClick = { onButtonClicked() },
+            modifier = Modifier
+                .padding(top = 16.dp)
+                .fillMaxWidth()
         ) {
-            Text(text = title)
+            Text(text = buttonText)
         }
+    }
+}
 
-        Spacer(modifier = Modifier.size(20.dp))
-
+@Composable
+fun CustomFormContent(
+    buttonText: String,
+    onButtonClicked: () -> Unit,
+    content: @Composable () -> Unit
+) {
+    Column(
+        modifier = Modifier.fillMaxWidth().padding(top = 16.dp) // Add top padding
+    ) {
         content()
 
         Button(
@@ -340,14 +361,37 @@ fun CustomFormContent(
         }
     }
 }
+
 @Composable
 fun SuccessMessageForm(onDismiss: () -> Unit) {
     CustomFormContent(
-        title = "Success! Thank you for your rating.",
         buttonText = "Close",
         onButtonClicked = onDismiss
-    ) {}
+    ) {
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp, vertical = 2.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Image(
+                painter = painterResource(id = R.drawable.bien_104_gris),
+                contentDescription = "Success Image",
+                modifier = Modifier
+                    .size(100.dp)
+                    .padding(16.dp)
+            )
+
+            Text(
+                text = "Congratulations on completing the questionnaire!",
+                style = TextStyle(fontSize = 18.sp, fontWeight = FontWeight.Bold),
+                textAlign = TextAlign.Center,
+                modifier = Modifier.padding(top = 8.dp)
+            )
+        }
+    }
 }
+
 @Composable
 fun StarRating(
     maxRating: Int = 5,
