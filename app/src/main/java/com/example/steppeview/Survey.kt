@@ -99,7 +99,7 @@ fun StepThreeContent(onNextStep: () -> Unit, totalSteps: Int) {
             horizontalArrangement = Arrangement.Center
         ) {
             Text(text = "Quelle est votre satisfaction  globale \n" +
-                    "          à l'égard de nos service ?", fontStyle = FontStyle.Normal
+                    "         à l'égard de nos service ?", fontStyle = FontStyle.Normal
             )
             Spacer(modifier = Modifier.width(30.dp))
 
@@ -468,7 +468,6 @@ fun EmojiList(onEmojiSelected: (String) -> Unit) {
         "Bonne",
         "Très Bonne"
     )
-
     var selectedEmojiIndex by remember { mutableStateOf<Int?>(null) }
     Spacer(modifier = Modifier.height(21.dp))
 
@@ -494,12 +493,23 @@ fun EmojiList(onEmojiSelected: (String) -> Unit) {
                         ),
                     contentAlignment = Alignment.Center
                 ) {
-                    Image(
-                        painter = painterResource(id = if (!isSelected) emojiResId else emojiEquivalents[index]),
-                        contentDescription = null,
-                        contentScale = ContentScale.Fit,
-                        modifier = Modifier.fillMaxSize()
-                    )
+                    Box(
+                        modifier = Modifier
+                            .size(48.dp) // Reduce the size to add padding
+                            .background(
+                                color = if (isSelected) Color.Green else Color.Transparent,
+                                shape = CircleShape
+                            )
+                            .padding(2.dp), // Add padding here
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Image(
+                            painter = painterResource(id = if (!isSelected) emojiResId else emojiEquivalents[index]),
+                            contentDescription = null,
+                            contentScale = ContentScale.Fit,
+                            modifier = Modifier.fillMaxSize()
+                        )
+                    }
                 }
 
                 if (isSelected) {
