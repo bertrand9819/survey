@@ -427,24 +427,33 @@ fun CheckboxList(onOptionSelected: (String) -> Unit) {
         "Option 5"
     )
     options.forEach { option ->
+        val isChecked = remember { mutableStateOf(false) }
         Row(
             modifier = Modifier.fillMaxWidth().padding(vertical = 8.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
-
             Text(text = option, modifier = Modifier.weight(2f))
             Spacer(modifier = Modifier.width(12.dp))
-            Checkbox(
-                checked = option == remember { mutableStateOf("") }.value,
-                onCheckedChange = {
-                    if (it) onOptionSelected(option)
-                },
-                modifier = Modifier.weight(1f)
-            )
-
+            Box(
+                modifier = Modifier
+                    .size(24.dp)
+                    .background(if (isChecked.value) Color.Green else Color.Transparent)
+            ) {
+                Checkbox(
+                    checked = isChecked.value,
+                    onCheckedChange = {
+                        isChecked.value = it
+                        if (it) onOptionSelected(option)
+                    },
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .align(Alignment.Center)
+                )
+            }
         }
     }
 }
+
 @Composable
 fun EmojiList(onEmojiSelected: (String) -> Unit) {
     val emojis = listOf(
@@ -465,7 +474,7 @@ fun EmojiList(onEmojiSelected: (String) -> Unit) {
         "Très Mauvaise",
         "Mauvaise",
         "Moyenne",
-        "Bonne",
+        " Bonne",
         "Très Bonne"
     )
     var selectedEmojiIndex by remember { mutableStateOf<Int?>(null) }
