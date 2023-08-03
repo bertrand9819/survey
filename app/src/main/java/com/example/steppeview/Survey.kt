@@ -17,6 +17,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
@@ -97,8 +98,13 @@ fun StepThreeContent(onNextStep: () -> Unit, totalSteps: Int) {
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.Center
         ) {
-            Text(text = "Step 3: Select an emoji")
+            Text(text = "Quelle est votre satisfaction  globale \n" +
+                    "          à l'égard de nos service ?", fontStyle = FontStyle.Normal
+            )
+            Spacer(modifier = Modifier.width(30.dp))
+
         }
+
 
         if (!showSuccessMessage) {
             EmojiList(onEmojiSelected = { selectedEmoji = it })
@@ -442,28 +448,29 @@ fun CheckboxList(onOptionSelected: (String) -> Unit) {
 @Composable
 fun EmojiList(onEmojiSelected: (String) -> Unit) {
     val emojis = listOf(
-        R.drawable.ic_launcher_foreground,
-        R.drawable.ic_launcher_background,
-        R.drawable.ic_launcher_foreground,
-        R.drawable.ic_launcher_background,
-        R.drawable.ic_launcher_foreground
+        R.drawable.bad_g,
+        R.drawable.bad2_gris,
+        R.drawable.pas_bien_gris,
+        R.drawable.bien_gris,
+        R.drawable.love_g
     )
     val emojiEquivalents = listOf(
-        R.drawable.ic_launcher_foreground,
-        R.drawable.ic_launcher_background,
-        R.drawable.ic_launcher_background,
-        R.drawable.ic_launcher_foreground,
-        R.drawable.ic_launcher_background
+        R.drawable.bad_r,
+        R.drawable.bad2_orange,
+        R.drawable.pasbien_jaune,
+        R.drawable.bien_jaune,
+        R.drawable.love_green
     )
     val emojiLabels = listOf(
-        "Smile",
-        "Grin",
-        "Happy",
-        "Kiss",
-        "Cool"
+        "Très Mauvaise",
+        "Mauvaise",
+        "Moyenne",
+        "Bonne",
+        "Très Bonne"
     )
 
     var selectedEmojiIndex by remember { mutableStateOf<Int?>(null) }
+    Spacer(modifier = Modifier.height(21.dp))
 
     Row(
         modifier = Modifier.fillMaxWidth().padding(vertical = 8.dp),
@@ -497,6 +504,7 @@ fun EmojiList(onEmojiSelected: (String) -> Unit) {
 
                 if (isSelected) {
                     Spacer(modifier = Modifier.height(4.dp))
+
                     Text(
                         text = emojiLabels[index],
                         fontSize = 14.sp,
