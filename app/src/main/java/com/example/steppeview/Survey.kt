@@ -111,42 +111,7 @@ fun WelcomeForm(onFormCompleted: () -> Unit) {
 }
 
 
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun SuccessMessageBottomSheet(onDismiss: () -> Unit) {
-    BottomSheetScaffold(
-        sheetContent = {
-            Box(
-                modifier = Modifier.fillMaxWidth().padding(16.dp),
-                contentAlignment = Alignment.Center
-            ) {
-                /*Image(
-                    painter = painterResource(R.drawable.love_104_green), // Replace with your image resource
-                    contentDescription = null,
-                    modifier = Modifier
-                        .size(100.dp)
-                        .align(Alignment.TopCenter)
-                )*/
 
-                Column(
-                    modifier = Modifier.align(Alignment.Center),
-                    horizontalAlignment = Alignment.CenterHorizontally
-                ) {
-                    Text(text = "Success! Thank you for your rating.")
-                    Spacer(modifier = Modifier.height(16.dp))
-                    Button(
-                        onClick = {
-                            onDismiss()
-                        },
-                        modifier = Modifier.align(Alignment.CenterHorizontally)
-                    ) {
-                        Text(text = "Close")
-                    }
-                }
-            }
-        }
-    ) {}
-}
 
 
 
@@ -494,7 +459,7 @@ fun CheckboxList(onOptionSelected: (String) -> Unit) {
             Box(
                 modifier = Modifier
                     .size(24.dp)
-                    .padding(2.dp) // Add padding to contain the color inside the checkbox
+                    .padding(2.dp)
                     .background(if (isChecked.value) Color.Yellow else Color.Transparent)
             ) {
                 Checkbox(
@@ -610,6 +575,37 @@ fun SurveyForms() {
     QuestionnaireModalBottomSheet(totalSteps = totalSteps, formSteps = formSteps)
 
 }
+
+@Composable
+fun RadioButtonList(selectedOption: String, onOptionSelected: (String) -> Unit) {
+    val options = listOf(
+        "Option 1",
+        "Option 2",
+        "Option 3",
+        "Option 4",
+        "Option 5"
+    )
+    options.forEach { option ->
+        Row(
+            modifier = Modifier.fillMaxWidth().padding(vertical = 8.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Text(text = option, modifier = Modifier.weight(2f))
+            Spacer(modifier = Modifier.width(12.dp))
+            RadioButton(
+                selected = (option == selectedOption),
+                onClick = {
+                    onOptionSelected(option)
+                },
+                colors = RadioButtonDefaults.colors(
+                    selectedColor = Color.Yellow,
+                    unselectedColor = Color.Transparent
+                )
+            )
+        }
+    }
+}
+
 @Preview
 @Composable
 fun PreviewQuestionnaireModalBottomSheet() {
