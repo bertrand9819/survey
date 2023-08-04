@@ -37,6 +37,7 @@ fun QuestionnaireModalBottomSheet(
 ) {
     var currentStep by remember { mutableStateOf(0) }
     var showSuccessMessage by remember { mutableStateOf(false) }
+    var showWelcomeForm by remember { mutableStateOf(true) }
     val scope = rememberCoroutineScope()
     val scaffoldState = rememberBottomSheetScaffoldState()
 
@@ -47,7 +48,12 @@ fun QuestionnaireModalBottomSheet(
             Column(
                 modifier = Modifier.fillMaxWidth().padding(16.dp)
             ) {
-                if (!showSuccessMessage) {
+                if (showWelcomeForm) {
+                    WelcomeForm {
+                        showWelcomeForm = false
+                        scope.launch { scaffoldState.bottomSheetState.expand() }
+                    }
+                } else if (!showSuccessMessage) {
                     StepBar(currentStep = currentStep, totalSteps = totalSteps)
                     formSteps.getOrNull(currentStep)?.invoke {
                         if (currentStep < formSteps.size - 1) {
@@ -63,7 +69,6 @@ fun QuestionnaireModalBottomSheet(
             }
         }
     ) {
-
         Column(
             modifier = Modifier.fillMaxSize().padding(16.dp),
             horizontalAlignment = Alignment.CenterHorizontally
@@ -71,7 +76,7 @@ fun QuestionnaireModalBottomSheet(
             Text(text = "Start Questionnaire", fontSize = 20.sp)
             Button(
                 onClick = {
-                    currentStep = 0
+                    showWelcomeForm = true
                     showSuccessMessage = false
                     scope.launch { scaffoldState.bottomSheetState.show() }
                 },
@@ -82,6 +87,30 @@ fun QuestionnaireModalBottomSheet(
         }
     }
 }
+
+@Composable
+fun WelcomeForm(onFormCompleted: () -> Unit) {
+    Column(
+        modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 2.dp),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Image(
+            painter = painterResource(id = R.drawable.pasbien_jaune_greand),
+            contentDescription = "Welcome Image",
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = 16.dp, bottom = 8.dp)
+        )
+        Button(
+            onClick = { onFormCompleted() },
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            Text(text = "Start Questionnaire")
+        }
+    }
+}
+
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SuccessMessageBottomSheet(onDismiss: () -> Unit) {
