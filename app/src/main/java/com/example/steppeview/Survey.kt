@@ -1,4 +1,3 @@
-
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -28,7 +27,6 @@ import com.example.steppeview.R
 import kotlinx.coroutines.launch
 
 
-
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun QuestionnaireModalBottomSheet(
@@ -46,7 +44,9 @@ fun QuestionnaireModalBottomSheet(
         sheetPeekHeight = 100.dp,
         sheetContent = {
             Column(
-                modifier = Modifier.fillMaxWidth().padding(16.dp)
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp)
             ) {
                 if (showWelcomeForm) {
                     WelcomeForm {
@@ -63,14 +63,16 @@ fun QuestionnaireModalBottomSheet(
                         }
                     }
                 } else {
-                    // Show the success bottom sheet here
+
                     SuccessMessageForm(onDismiss = { showSuccessMessage = false })
                 }
             }
         }
     ) {
         Column(
-            modifier = Modifier.fillMaxSize().padding(16.dp),
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(16.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Text(text = "Start Questionnaire", fontSize = 20.sp)
@@ -91,13 +93,15 @@ fun QuestionnaireModalBottomSheet(
 @Composable
 fun WelcomeForm(onFormCompleted: () -> Unit) {
     Column(
-        modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 2.dp),
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 16.dp, vertical = 2.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Row(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.Center
-        ){
+        ) {
 
             Image(
                 painter = painterResource(id = R.drawable.imgstart),
@@ -108,8 +112,6 @@ fun WelcomeForm(onFormCompleted: () -> Unit) {
                     .padding(top = 16.dp, bottom = 8.dp)
             )
         }
-
-
         Row(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.Center
@@ -139,7 +141,9 @@ fun StepThreeContent(onNextStep: () -> Unit, totalSteps: Int) {
     var selectedEmoji by remember { mutableStateOf("") }
 
     Column(
-        modifier = Modifier.fillMaxWidth().padding(16.dp)
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(16.dp)
     ) {
         Row(
             modifier = Modifier.fillMaxWidth(),
@@ -181,7 +185,9 @@ fun StepOneContent(onNextStep: () -> Unit, totalSteps: Int) {
     var selectedOption by remember { mutableStateOf("") }
 
     Column(
-        modifier = Modifier.fillMaxWidth().padding(16.dp)
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(16.dp)
     ) {
         Row(
             modifier = Modifier.fillMaxWidth(),
@@ -202,7 +208,7 @@ fun StepOneContent(onNextStep: () -> Unit, totalSteps: Int) {
         ) {
             Button(
                 onClick = {
-                    // Validate input here if needed
+
                     if (selectedOption.isNotEmpty()) {
                         onNextStep()
                     }
@@ -223,7 +229,9 @@ fun StepTwoContent(onNextStep: () -> Unit, totalSteps: Int) {
     var textValue by remember { mutableStateOf("") }
     val maxWordCount = 500
     Column(
-        modifier = Modifier.fillMaxWidth().padding(16.dp)
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(16.dp)
     ) {
         Text(text = "Step 2: Enter your text")
 
@@ -246,7 +254,7 @@ fun StepTwoContent(onNextStep: () -> Unit, totalSteps: Int) {
                     },
                     maxLines = Int.MAX_VALUE,
                     textStyle = TextStyle(fontSize = 16.sp),
-                    shape = RoundedCornerShape(8.dp), // Set the shape of the TextField to RoundedCornerShape
+                    shape = RoundedCornerShape(8.dp),
                     colors = TextFieldDefaults.colors(
                         disabledContainerColor = Color.Transparent,
                         focusedIndicatorColor = Color.Transparent,
@@ -282,6 +290,7 @@ fun StepTwoContent(onNextStep: () -> Unit, totalSteps: Int) {
         }
     }
 }
+
 @Composable
 fun StepFourContent(onFinish: () -> Unit) {
     var rating by remember { mutableStateOf(0) }
@@ -314,7 +323,6 @@ fun StepFourContent(onFinish: () -> Unit) {
             }
         }
     } else {
-        // Show the success bottom sheet here
         SuccessMessageForm(onDismiss = { showSuccessMessage = false })
     }
 }
@@ -329,13 +337,15 @@ fun CustomFormContent(
     content: @Composable () -> Unit
 ) {
     Column(
-        modifier = Modifier.fillMaxWidth().padding(1.dp)
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(1.dp)
     ) {
         if (title != null) {
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween
-            ){
+            ) {
                 Text(
                     text = title,
                     style = TextStyle(fontSize = 18.sp, fontWeight = FontWeight.Bold),
@@ -345,7 +355,6 @@ fun CustomFormContent(
             }
 
         }
-
         if (image != null) {
             Image(
                 painter = image,
@@ -356,9 +365,7 @@ fun CustomFormContent(
                     .padding(horizontal = 16.dp, vertical = 8.dp)
             )
         }
-
         content()
-
         Button(
             onClick = onButtonClicked,
             modifier = Modifier
@@ -391,12 +398,10 @@ fun SuccessMessageForm(onDismiss: () -> Unit) {
                 modifier = Modifier.padding(top = 8.dp)
             )
 
-            // Additional content specific to SuccessMessageForm, if needed
+
         }
     }
 }
-
-
 
 @Composable
 fun StarRating(
@@ -477,7 +482,9 @@ fun CheckboxList(onOptionSelected: (String) -> Unit) {
     options.forEachIndexed { index, option ->
         val isChecked = remember { mutableStateOf(false) }
         Row(
-            modifier = Modifier.fillMaxWidth().padding(vertical = 8.dp),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(vertical = 8.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
             Text(text = option, modifier = Modifier.weight(2f))
@@ -520,6 +527,71 @@ fun VerticalDivider() {
 }
 
 
+@Composable
+fun slideRatin(onFormCompleted: () -> Unit) {
+    var rating by remember { mutableStateOf(0f) }
+
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 16.dp, vertical = 2.dp),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        RatingBar(
+            rating = rating,
+            onRatingChanged = { newRating ->
+                rating = newRating
+            },
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = 16.dp, bottom = 8.dp)
+        )
+
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.Center
+        ) {
+            Text(
+                text = "  Souhaitez-vous participer à notre enquête de \n" +
+                        "         satisfaction en répondant à quelques \n " +
+                        "                                  questions ?",
+                fontStyle = FontStyle.Normal
+            )
+        }
+        Spacer(modifier = Modifier.height(30.dp))
+        Button(
+            onClick = { onFormCompleted() },
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            Text(text = "Start Questionnaire")
+        }
+    }
+}
+
+@Composable
+fun RatingBar(
+    rating: Float,
+    onRatingChanged: (Float) -> Unit,
+    modifier: Modifier = Modifier
+) {
+    val maxRating = 5
+
+    Row(
+        modifier = modifier,
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        for (i in 1..maxRating) {
+            Icon(
+                imageVector = Icons.Default.Star,
+                contentDescription = null,
+                tint = if (i <= rating) Color.Yellow else Color.Gray,
+                modifier = Modifier
+                    .size(36.dp)
+                    .clickable { onRatingChanged(i.toFloat()) }
+            )
+        }
+    }
+}
 
 @Composable
 fun EmojiList(onEmojiSelected: (String) -> Unit) {
@@ -548,7 +620,9 @@ fun EmojiList(onEmojiSelected: (String) -> Unit) {
     Spacer(modifier = Modifier.height(21.dp))
 
     Row(
-        modifier = Modifier.fillMaxWidth().padding(vertical = 8.dp),
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(vertical = 8.dp),
         horizontalArrangement = Arrangement.SpaceEvenly
     ) {
         emojis.forEachIndexed { index, emojiResId ->
@@ -604,6 +678,7 @@ fun EmojiList(onEmojiSelected: (String) -> Unit) {
         }
     }
 }
+
 @Composable
 fun SurveyForms() {
     val totalSteps = 4
@@ -613,10 +688,7 @@ fun SurveyForms() {
         { onNextStep -> StepThreeContent(onNextStep, totalSteps) },
         { onFinish -> StepFourContent(onFinish) }
     )
-
-
     QuestionnaireModalBottomSheet(totalSteps = totalSteps, formSteps = formSteps)
-
 }
 
 @Composable
@@ -630,7 +702,9 @@ fun RadioButtonList(selectedOption: String, onOptionSelected: (String) -> Unit) 
     )
     options.forEach { option ->
         Row(
-            modifier = Modifier.fillMaxWidth().padding(vertical = 8.dp),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(vertical = 8.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
             Text(text = option, modifier = Modifier.weight(2f))
