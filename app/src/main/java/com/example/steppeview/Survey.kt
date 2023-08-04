@@ -94,8 +94,21 @@ fun WelcomeForm(onFormCompleted: () -> Unit) {
         modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 2.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.Center
+        ) {
+            Text(
+                text = "  Souhaitez-vous participer à notre enquête de \n" +
+                        "         satisfaction en répondant à quelques \n " +
+                        "                                  questions ?",
+                fontStyle = FontStyle.Normal
+            )
+            Spacer(modifier = Modifier.width(30.dp))
+
+        }
         Image(
-            painter = painterResource(id = R.drawable.pasbien_jaune_greand),
+            painter = painterResource(id = R.drawable.imgstart),
             contentDescription = "Welcome Image",
             modifier = Modifier
                 .fillMaxWidth()
@@ -109,10 +122,6 @@ fun WelcomeForm(onFormCompleted: () -> Unit) {
         }
     }
 }
-
-
-
-
 
 
 @Composable
@@ -171,7 +180,11 @@ fun StepOneContent(onNextStep: () -> Unit, totalSteps: Int) {
             Text(text = "veuillez choisir ?")
         }
 
+
+
         CheckboxList(onOptionSelected = { selectedOption = it })
+
+
 
         Row(
             modifier = Modifier.fillMaxWidth(),
@@ -448,7 +461,8 @@ fun CheckboxList(onOptionSelected: (String) -> Unit) {
         "Option 4",
         "Option 5"
     )
-    options.forEach { option ->
+
+    options.forEachIndexed { index, option ->
         val isChecked = remember { mutableStateOf(false) }
         Row(
             modifier = Modifier.fillMaxWidth().padding(vertical = 8.dp),
@@ -474,8 +488,25 @@ fun CheckboxList(onOptionSelected: (String) -> Unit) {
                 )
             }
         }
+
+        if (index < options.size - 0) {
+            VerticalDivider()
+        }
     }
 }
+
+@Composable
+fun VerticalDivider() {
+    Box(
+        modifier = Modifier
+            .height(2.dp)
+            .fillMaxWidth()
+            .background(Color.LightGray.copy(0.6f))
+            .padding(horizontal = 88.dp)
+
+    )
+}
+
 
 
 @Composable
