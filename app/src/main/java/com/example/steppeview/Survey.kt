@@ -97,6 +97,22 @@ fun WelcomeForm(onFormCompleted: () -> Unit) {
         Row(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.Center
+        ){
+
+            Image(
+                painter = painterResource(id = R.drawable.imgstart),
+                contentDescription = "Welcome Image",
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(150.dp)
+                    .padding(top = 16.dp, bottom = 8.dp)
+            )
+        }
+
+
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.Center
         ) {
             Text(
                 text = "  Souhaitez-vous participer à notre enquête de \n" +
@@ -104,16 +120,10 @@ fun WelcomeForm(onFormCompleted: () -> Unit) {
                         "                                  questions ?",
                 fontStyle = FontStyle.Normal
             )
-            Spacer(modifier = Modifier.width(30.dp))
+            Spacer(modifier = Modifier.height(30.dp))
 
         }
-        Image(
-            painter = painterResource(id = R.drawable.imgstart),
-            contentDescription = "Welcome Image",
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(top = 16.dp, bottom = 8.dp)
-        )
+        Spacer(modifier = Modifier.height(30.dp))
         Button(
             onClick = { onFormCompleted() },
             modifier = Modifier.fillMaxWidth()
@@ -342,6 +352,7 @@ fun CustomFormContent(
                 contentDescription = "Custom Image",
                 modifier = Modifier
                     .fillMaxWidth()
+                    .height(150.dp)
                     .padding(horizontal = 16.dp, vertical = 8.dp)
             )
         }
@@ -362,13 +373,14 @@ fun CustomFormContent(
 @Composable
 fun SuccessMessageForm(onDismiss: () -> Unit) {
     CustomFormContent(
-        image = painterResource(id = R.drawable.bien_jaune_104),
+        image = painterResource(id = R.drawable.img),
         buttonText = "Close",
         onButtonClicked = onDismiss
     ) {
         Column(
             modifier = Modifier
                 .fillMaxWidth()
+
                 .padding(horizontal = 16.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
