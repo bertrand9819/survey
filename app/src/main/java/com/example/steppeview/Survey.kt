@@ -40,6 +40,7 @@ fun QuestionnaireModalBottomSheet2(
     var showWelcomeForm by remember { mutableStateOf(true) }
     val sheetState = rememberModalBottomSheetState()
     val scope = rememberCoroutineScope()
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -60,6 +61,7 @@ fun QuestionnaireModalBottomSheet2(
             Text(text = "Start")
         }
     }
+
     if (sheetState.isVisible) {
         ModalBottomSheet(
             sheetState = sheetState,
@@ -75,16 +77,10 @@ fun QuestionnaireModalBottomSheet2(
                         .padding(16.dp)
                 ) {
                     if (showWelcomeForm) {
-
-                        WelcomeForm(
-                            onFormCompleted = { /* Handle form completion */ },
-                            onCloseClicked = {
-                                scope.launch {
-                                    sheetState.hide()
-                                }
-                            }
-                        )
-
+                        WelcomeForm {
+                            showWelcomeForm = false
+                            scope.launch { sheetState.expand() }
+                        }
                     } else if (!showSuccessMessage) {
                         StepBar(currentStep = currentStep, totalSteps = totalSteps)
                         formSteps.getOrNull(currentStep)?.invoke {
@@ -104,7 +100,69 @@ fun QuestionnaireModalBottomSheet2(
 }
 
 @Composable
-fun WelcomeForm(onFormCompleted: () -> Unit, onCloseClicked: () -> Unit) {
+fun QuestionnaireModalBottomSheet(
+    totalSteps: Int,
+    formSteps: List<@Composable (onNextStep: () -> Unit) -> Unit>
+) {
+
+    var currentStep by remember { mutableStateOf(0) }
+    var showSuccessMessage by remember { mutableStateOf(false) }
+    var showWelcomeForm by remember { mutableStateOf(true) }
+    val scope = rememberCoroutineScope()
+    val scaffoldState = rememberBottomSheetScaffoldState()
+
+    BottomSheetScaffold(
+        scaffoldState = scaffoldState,
+        sheetPeekHeight = 100.dp,
+        sheetContent = {
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp)
+            ) {
+                if (showWelcomeForm) {
+                    WelcomeForm {
+                        showWelcomeForm = false
+                        scope.launch { scaffoldState.bottomSheetState.expand() }
+                    }
+                } else if (!showSuccessMessage) {
+                    StepBar(currentStep = currentStep, totalSteps = totalSteps)
+                    formSteps.getOrNull(currentStep)?.invoke {
+                        if (currentStep < formSteps.size - 1) {
+                            currentStep += 1
+                        } else {
+                            showSuccessMessage = true
+                        }
+                    }
+                } else {
+                    SuccessMessageForm(onDismiss = { showSuccessMessage = false })
+                }
+            }
+        }
+    ) {
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(16.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Text(text = "Start Questionnaire", fontSize = 20.sp)
+            Button(
+                onClick = {
+                    showWelcomeForm = true
+                    showSuccessMessage = false
+                    scope.launch{ scaffoldState.bottomSheetState.show() }
+                },
+                modifier = Modifier.padding(top = 16.dp)
+            ) {
+                Text(text = "Start")
+            }
+        }
+    }
+}
+
+@Composable
+fun WelcomeForm(onFormCompleted: () -> Unit) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -114,12 +172,10 @@ fun WelcomeForm(onFormCompleted: () -> Unit, onCloseClicked: () -> Unit) {
         Box(
             modifier = Modifier
                 .size(48.dp)
-                .background(shape = CircleShape, color = Color.Gray.copy(0.4f))
+                .background(shape = CircleShape, color = Color.Gray.copy(0.3f))
         ) {
             IconButton(
                 onClick = {
-
-                        onCloseClicked()
 
                 }
             ) {
@@ -130,7 +186,6 @@ fun WelcomeForm(onFormCompleted: () -> Unit, onCloseClicked: () -> Unit) {
                 )
             }
         }
-
     }
     Column(
         modifier = Modifier
@@ -138,11 +193,11 @@ fun WelcomeForm(onFormCompleted: () -> Unit, onCloseClicked: () -> Unit) {
             .padding(horizontal = 16.dp, vertical = 2.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-
         Row(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.Center
         ) {
+
             Image(
                 painter = painterResource(id = R.drawable.imgstart),
                 contentDescription = "Welcome Image",
@@ -153,9 +208,7 @@ fun WelcomeForm(onFormCompleted: () -> Unit, onCloseClicked: () -> Unit) {
             )
         }
         Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(end = 16.dp),  // Ajout de la marge à droite
+            modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.Center
         ) {
             Text(
@@ -165,18 +218,23 @@ fun WelcomeForm(onFormCompleted: () -> Unit, onCloseClicked: () -> Unit) {
                 fontStyle = FontStyle.Normal
             )
             Spacer(modifier = Modifier.height(30.dp))
-        }
 
-        Spacer(modifier = Modifier.height(16.dp))  // Espace supplémentaire après le bouton
+        }
+        Spacer(modifier = Modifier.height(10.dp))
         Button(
             onClick = { onFormCompleted() },
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(56.dp)
+                .padding(vertical = 8.dp),
+            colors = ButtonDefaults.buttonColors(containerColor = Color(android.graphics.Color.parseColor("#179138"))),
+            elevation = ButtonDefaults.elevatedButtonElevation()
+
         ) {
             Text(text = "Start Questionnaire")
         }
     }
 }
-
 @Composable
 fun StepThreeContent(onNextStep: () -> Unit, totalSteps: Int) {
     var selectedEmoji by remember { mutableStateOf("") }
@@ -422,9 +480,12 @@ fun SuccessMessageForm(onDismiss: () -> Unit) {
                 textAlign = TextAlign.Center,
                 modifier = Modifier.padding(top = 8.dp)
             )
+
+
         }
     }
 }
+
 @Composable
 fun StarRating(
     maxRating: Int = 5,
@@ -442,6 +503,7 @@ fun StarRating(
         }
     }
 }
+
 @Composable
 fun Star(isFilled: Boolean, onClick: () -> Unit) {
     val iconColor = if (isFilled) Color.Yellow else Color.Gray
@@ -454,10 +516,12 @@ fun Star(isFilled: Boolean, onClick: () -> Unit) {
             .clickable(onClick = onClick)
     )
 }
+
 @Composable
 fun StepBar(currentStep: Int, totalSteps: Int) {
     CustomStepBar(currentStep = currentStep, totalSteps = totalSteps)
 }
+
 @Composable
 fun CustomStepBar(currentStep: Int, totalSteps: Int) {
     Column(
@@ -487,6 +551,7 @@ fun CustomStepBar(currentStep: Int, totalSteps: Int) {
         }
     }
 }
+
 @Composable
 fun CheckboxList(onOptionSelected: (String) -> Unit) {
     val options = listOf(
@@ -496,6 +561,7 @@ fun CheckboxList(onOptionSelected: (String) -> Unit) {
         "Option 4",
         "Option 5"
     )
+
     options.forEachIndexed { index, option ->
         val isChecked = remember { mutableStateOf(false) }
         Row(
@@ -530,6 +596,7 @@ fun CheckboxList(onOptionSelected: (String) -> Unit) {
         }
     }
 }
+
 @Composable
 fun VerticalDivider() {
     Box(
@@ -538,6 +605,7 @@ fun VerticalDivider() {
             .fillMaxWidth()
             .background(Color.LightGray.copy(0.6f))
             .padding(horizontal = 88.dp)
+
     )
 }
 
