@@ -233,8 +233,8 @@ fun StepThreeContent(onNextStep: () -> Unit, totalSteps: Int) {
                 enabled = selectedEmoji.isNotEmpty(),
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(65.dp)
-                    .padding(vertical = 8.dp),
+                    .height(60.dp)
+                    .padding(vertical = 15.dp),
                 colors = ButtonDefaults.buttonColors(containerColor =
                 Color(android.graphics.Color.parseColor("#179138"))),
                 elevation = ButtonDefaults.elevatedButtonElevation()
@@ -261,6 +261,7 @@ fun StepOneContent(onNextStep: () -> Unit, totalSteps: Int) {
             Text(text = "veuillez choisir ?")
         }
         CheckboxList(onOptionSelected = { selectedOption = it })
+        Spacer(modifier = Modifier.height(25.dp))
         Row(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.Center
@@ -520,7 +521,7 @@ fun CustomStepBar(currentStep: Int, totalSteps: Int) {
                         modifier = Modifier
                             .fillMaxWidth()
                             .height(2.dp)
-                            .background(color = if (step <= currentStep) Color.Green else Color.Gray)
+                            .background(color = if (step <= currentStep) Color(android.graphics.Color.parseColor("#179138")) else Color.Gray)
                     )
                 }
 
@@ -554,9 +555,10 @@ fun CheckboxList(onOptionSelected: (String) -> Unit) {
                 modifier = Modifier
                     .size(24.dp)
                     .padding(2.dp)
-                    .background(if (isChecked.value) Color.Yellow else Color.Transparent)
+
             ) {
                 Checkbox(
+
                     checked = isChecked.value,
                     onCheckedChange = {
                         isChecked.value = it
