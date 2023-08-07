@@ -1,3 +1,5 @@
+@file:OptIn(ExperimentalMaterial3Api::class)
+
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -26,13 +28,67 @@ import androidx.compose.ui.unit.sp
 import com.example.steppeview.R
 import kotlinx.coroutines.launch
 
+@Composable
+fun QuestionnaireModalBottomSheet2(
+    totalSteps: Int,
+    formSteps: List<@Composable (onNextStep: () -> Unit) -> Unit>
+) {
+    var currentStep by remember { mutableStateOf(0) }
+    var showSuccessMessage by remember { mutableStateOf(false) }
+    var showWelcomeForm by remember { mutableStateOf(true) }
+    val sheetState = rememberModalBottomSheetState()
+    val scope = rememberCoroutineScope()
 
-@OptIn(ExperimentalMaterial3Api::class)
+    Button(onClick = {
+        scope.launch {
+            sheetState.show()
+        }
+    }) {
+        Text("Show sheet")
+    }
+    if (sheetState.isVisible) {
+        ModalBottomSheet(
+            sheetState = sheetState,
+            onDismissRequest = {
+                scope.launch {
+                    sheetState.hide()
+                }
+            },
+            content = {
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(16.dp)
+                ) {
+                    if (showWelcomeForm) {
+                        WelcomeForm {
+                            showWelcomeForm = false
+                            scope.launch { sheetState.expand() }
+                        }
+                    } else if (!showSuccessMessage) {
+                        StepBar(currentStep = currentStep, totalSteps = totalSteps)
+                        formSteps.getOrNull(currentStep)?.invoke {
+                            if (currentStep < formSteps.size - 1) {
+                                currentStep += 1
+                            } else {
+                                showSuccessMessage = true
+                            }
+                        }
+                    } else {
+                        SuccessMessageForm(onDismiss = { showSuccessMessage = false })
+                    }
+                }
+            }
+        )
+    }
+}
+
 @Composable
 fun QuestionnaireModalBottomSheet(
     totalSteps: Int,
     formSteps: List<@Composable (onNextStep: () -> Unit) -> Unit>
 ) {
+
     var currentStep by remember { mutableStateOf(0) }
     var showSuccessMessage by remember { mutableStateOf(false) }
     var showWelcomeForm by remember { mutableStateOf(true) }
@@ -63,7 +119,6 @@ fun QuestionnaireModalBottomSheet(
                         }
                     }
                 } else {
-
                     SuccessMessageForm(onDismiss = { showSuccessMessage = false })
                 }
             }
@@ -80,7 +135,7 @@ fun QuestionnaireModalBottomSheet(
                 onClick = {
                     showWelcomeForm = true
                     showSuccessMessage = false
-                    scope.launch { scaffoldState.bottomSheetState.show() }
+                    scope.launch{ scaffoldState.bottomSheetState.show() }
                 },
                 modifier = Modifier.padding(top = 16.dp)
             ) {
@@ -134,8 +189,6 @@ fun WelcomeForm(onFormCompleted: () -> Unit) {
         }
     }
 }
-
-
 @Composable
 fun StepThreeContent(onNextStep: () -> Unit, totalSteps: Int) {
     var selectedEmoji by remember { mutableStateOf("") }
@@ -195,20 +248,13 @@ fun StepOneContent(onNextStep: () -> Unit, totalSteps: Int) {
         ) {
             Text(text = "veuillez choisir ?")
         }
-
-
-
         CheckboxList(onOptionSelected = { selectedOption = it })
-
-
-
         Row(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.Center
         ) {
             Button(
                 onClick = {
-
                     if (selectedOption.isNotEmpty()) {
                         onNextStep()
                     }
@@ -223,7 +269,6 @@ fun StepOneContent(onNextStep: () -> Unit, totalSteps: Int) {
         }
     }
 }
-
 @Composable
 fun StepTwoContent(onNextStep: () -> Unit, totalSteps: Int) {
     var textValue by remember { mutableStateOf("") }
@@ -234,9 +279,7 @@ fun StepTwoContent(onNextStep: () -> Unit, totalSteps: Int) {
             .padding(16.dp)
     ) {
         Text(text = "Step 2: Enter your text")
-
         var currentWordCount by remember { mutableStateOf(textValue.split("\\s+".toRegex()).size) }
-
         Card(
             modifier = Modifier
                 .fillMaxWidth()
@@ -290,12 +333,10 @@ fun StepTwoContent(onNextStep: () -> Unit, totalSteps: Int) {
         }
     }
 }
-
 @Composable
 fun StepFourContent(onFinish: () -> Unit) {
     var rating by remember { mutableStateOf(0) }
     var showSuccessMessage by remember { mutableStateOf(false) }
-
     if (!showSuccessMessage) {
         CustomFormContent(
             title = "Step 4: Rate with starssdfksmlflmsd;mlsd;vmsd;msd;md;fm;df",
@@ -326,8 +367,6 @@ fun StepFourContent(onFinish: () -> Unit) {
         SuccessMessageForm(onDismiss = { showSuccessMessage = false })
     }
 }
-
-
 @Composable
 fun CustomFormContent(
     title: String? = null,
@@ -353,7 +392,6 @@ fun CustomFormContent(
                     modifier = Modifier.padding(top = 8.dp)
                 )
             }
-
         }
         if (image != null) {
             Image(
@@ -376,7 +414,6 @@ fun CustomFormContent(
         }
     }
 }
-
 @Composable
 fun SuccessMessageForm(onDismiss: () -> Unit) {
     CustomFormContent(
@@ -688,7 +725,7 @@ fun SurveyForms() {
         { onNextStep -> StepThreeContent(onNextStep, totalSteps) },
         { onFinish -> StepFourContent(onFinish) }
     )
-    QuestionnaireModalBottomSheet(totalSteps = totalSteps, formSteps = formSteps)
+    QuestionnaireModalBottomSheet2(totalSteps = totalSteps, formSteps = formSteps)
 }
 
 @Composable
