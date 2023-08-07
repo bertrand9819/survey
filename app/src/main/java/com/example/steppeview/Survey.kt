@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -28,6 +29,7 @@ import androidx.compose.ui.unit.sp
 import com.example.steppeview.R
 import kotlinx.coroutines.launch
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun QuestionnaireModalBottomSheet2(
     totalSteps: Int,
@@ -38,13 +40,25 @@ fun QuestionnaireModalBottomSheet2(
     var showWelcomeForm by remember { mutableStateOf(true) }
     val sheetState = rememberModalBottomSheetState()
     val scope = rememberCoroutineScope()
-
-    Button(onClick = {
-        scope.launch {
-            sheetState.show()
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(16.dp),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Text(text = "Start Questionnaire", fontSize = 20.sp)
+        Button(
+            onClick = {
+                showWelcomeForm = true
+                showSuccessMessage = false
+                scope.launch {
+                    sheetState.show()
+                }
+            },
+            modifier = Modifier.padding(top = 16.dp)
+        ) {
+            Text(text = "Start")
         }
-    }) {
-        Text("Show sheet")
     }
     if (sheetState.isVisible) {
         ModalBottomSheet(
@@ -61,10 +75,16 @@ fun QuestionnaireModalBottomSheet2(
                         .padding(16.dp)
                 ) {
                     if (showWelcomeForm) {
-                        WelcomeForm {
-                            showWelcomeForm = false
-                            scope.launch { sheetState.expand() }
-                        }
+
+                        WelcomeForm(
+                            onFormCompleted = { /* Handle form completion */ },
+                            onCloseClicked = {
+                                scope.launch {
+                                    sheetState.hide()
+                                }
+                            }
+                        )
+
                     } else if (!showSuccessMessage) {
                         StepBar(currentStep = currentStep, totalSteps = totalSteps)
                         formSteps.getOrNull(currentStep)?.invoke {
@@ -84,80 +104,45 @@ fun QuestionnaireModalBottomSheet2(
 }
 
 @Composable
-fun QuestionnaireModalBottomSheet(
-    totalSteps: Int,
-    formSteps: List<@Composable (onNextStep: () -> Unit) -> Unit>
-) {
-
-    var currentStep by remember { mutableStateOf(0) }
-    var showSuccessMessage by remember { mutableStateOf(false) }
-    var showWelcomeForm by remember { mutableStateOf(true) }
-    val scope = rememberCoroutineScope()
-    val scaffoldState = rememberBottomSheetScaffoldState()
-
-    BottomSheetScaffold(
-        scaffoldState = scaffoldState,
-        sheetPeekHeight = 100.dp,
-        sheetContent = {
-            Column(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(16.dp)
-            ) {
-                if (showWelcomeForm) {
-                    WelcomeForm {
-                        showWelcomeForm = false
-                        scope.launch { scaffoldState.bottomSheetState.expand() }
-                    }
-                } else if (!showSuccessMessage) {
-                    StepBar(currentStep = currentStep, totalSteps = totalSteps)
-                    formSteps.getOrNull(currentStep)?.invoke {
-                        if (currentStep < formSteps.size - 1) {
-                            currentStep += 1
-                        } else {
-                            showSuccessMessage = true
-                        }
-                    }
-                } else {
-                    SuccessMessageForm(onDismiss = { showSuccessMessage = false })
-                }
-            }
-        }
+fun WelcomeForm(onFormCompleted: () -> Unit, onCloseClicked: () -> Unit) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(end = 16.dp),
+        horizontalArrangement = Arrangement.End
     ) {
-        Column(
+        Box(
             modifier = Modifier
-                .fillMaxSize()
-                .padding(16.dp),
-            horizontalAlignment = Alignment.CenterHorizontally
+                .size(48.dp)
+                .background(shape = CircleShape, color = Color.Gray.copy(0.4f))
         ) {
-            Text(text = "Start Questionnaire", fontSize = 20.sp)
-            Button(
+            IconButton(
                 onClick = {
-                    showWelcomeForm = true
-                    showSuccessMessage = false
-                    scope.launch{ scaffoldState.bottomSheetState.show() }
-                },
-                modifier = Modifier.padding(top = 16.dp)
+
+                        onCloseClicked()
+
+                }
             ) {
-                Text(text = "Start")
+                Icon(
+                    imageVector = Icons.Default.Close,
+                    contentDescription = "Cancel Button",
+                    tint = Color.Black
+                )
             }
         }
-    }
-}
 
-@Composable
-fun WelcomeForm(onFormCompleted: () -> Unit) {
+    }
     Column(
         modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = 16.dp, vertical = 2.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
+
         Row(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.Center
         ) {
-
             Image(
                 painter = painterResource(id = R.drawable.imgstart),
                 contentDescription = "Welcome Image",
@@ -168,7 +153,9 @@ fun WelcomeForm(onFormCompleted: () -> Unit) {
             )
         }
         Row(
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(end = 16.dp),  // Ajout de la marge à droite
             horizontalArrangement = Arrangement.Center
         ) {
             Text(
@@ -178,9 +165,9 @@ fun WelcomeForm(onFormCompleted: () -> Unit) {
                 fontStyle = FontStyle.Normal
             )
             Spacer(modifier = Modifier.height(30.dp))
-
         }
-        Spacer(modifier = Modifier.height(30.dp))
+
+        Spacer(modifier = Modifier.height(16.dp))  // Espace supplémentaire après le bouton
         Button(
             onClick = { onFormCompleted() },
             modifier = Modifier.fillMaxWidth()
@@ -189,6 +176,7 @@ fun WelcomeForm(onFormCompleted: () -> Unit) {
         }
     }
 }
+
 @Composable
 fun StepThreeContent(onNextStep: () -> Unit, totalSteps: Int) {
     var selectedEmoji by remember { mutableStateOf("") }
@@ -434,12 +422,9 @@ fun SuccessMessageForm(onDismiss: () -> Unit) {
                 textAlign = TextAlign.Center,
                 modifier = Modifier.padding(top = 8.dp)
             )
-
-
         }
     }
 }
-
 @Composable
 fun StarRating(
     maxRating: Int = 5,
@@ -457,7 +442,6 @@ fun StarRating(
         }
     }
 }
-
 @Composable
 fun Star(isFilled: Boolean, onClick: () -> Unit) {
     val iconColor = if (isFilled) Color.Yellow else Color.Gray
@@ -470,12 +454,10 @@ fun Star(isFilled: Boolean, onClick: () -> Unit) {
             .clickable(onClick = onClick)
     )
 }
-
 @Composable
 fun StepBar(currentStep: Int, totalSteps: Int) {
     CustomStepBar(currentStep = currentStep, totalSteps = totalSteps)
 }
-
 @Composable
 fun CustomStepBar(currentStep: Int, totalSteps: Int) {
     Column(
@@ -505,7 +487,6 @@ fun CustomStepBar(currentStep: Int, totalSteps: Int) {
         }
     }
 }
-
 @Composable
 fun CheckboxList(onOptionSelected: (String) -> Unit) {
     val options = listOf(
@@ -515,7 +496,6 @@ fun CheckboxList(onOptionSelected: (String) -> Unit) {
         "Option 4",
         "Option 5"
     )
-
     options.forEachIndexed { index, option ->
         val isChecked = remember { mutableStateOf(false) }
         Row(
@@ -550,7 +530,6 @@ fun CheckboxList(onOptionSelected: (String) -> Unit) {
         }
     }
 }
-
 @Composable
 fun VerticalDivider() {
     Box(
@@ -559,7 +538,6 @@ fun VerticalDivider() {
             .fillMaxWidth()
             .background(Color.LightGray.copy(0.6f))
             .padding(horizontal = 88.dp)
-
     )
 }
 
