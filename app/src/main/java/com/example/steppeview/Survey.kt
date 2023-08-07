@@ -56,7 +56,13 @@ fun QuestionnaireModalBottomSheet2(
                     sheetState.show()
                 }
             },
-            modifier = Modifier.padding(top = 16.dp)
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(65.dp)
+                .padding(vertical = 8.dp),
+            colors = ButtonDefaults.buttonColors(containerColor =
+            Color(android.graphics.Color.parseColor("#179138"))),
+            elevation = ButtonDefaults.elevatedButtonElevation()
         ) {
             Text(text = "Start")
         }
@@ -181,7 +187,8 @@ fun WelcomeForm(onFormCompleted: () -> Unit,onCloseClicked: () -> Unit) {
                 .fillMaxWidth()
                 .height(65.dp)
                 .padding(vertical = 8.dp),
-            colors = ButtonDefaults.buttonColors(containerColor = Color(android.graphics.Color.parseColor("#179138"))),
+            colors = ButtonDefaults.buttonColors(containerColor =
+            Color(android.graphics.Color.parseColor("#179138"))),
             elevation = ButtonDefaults.elevatedButtonElevation()
 
         ) {
@@ -225,8 +232,12 @@ fun StepThreeContent(onNextStep: () -> Unit, totalSteps: Int) {
                 },
                 enabled = selectedEmoji.isNotEmpty(),
                 modifier = Modifier
-                    .padding(top = 16.dp)
                     .fillMaxWidth()
+                    .height(65.dp)
+                    .padding(vertical = 8.dp),
+                colors = ButtonDefaults.buttonColors(containerColor =
+                Color(android.graphics.Color.parseColor("#179138"))),
+                elevation = ButtonDefaults.elevatedButtonElevation()
             ) {
                 Text(text = "Next")
             }
@@ -262,8 +273,12 @@ fun StepOneContent(onNextStep: () -> Unit, totalSteps: Int) {
                 },
                 enabled = selectedOption.isNotEmpty(),
                 modifier = Modifier
-                    .padding(top = 16.dp)
                     .fillMaxWidth()
+                    .height(65.dp)
+                    .padding(vertical = 8.dp),
+                colors = ButtonDefaults.buttonColors(containerColor =
+                Color(android.graphics.Color.parseColor("#179138"))),
+                elevation = ButtonDefaults.elevatedButtonElevation()
             ) {
                 Text(text = "Next")
             }
@@ -327,8 +342,12 @@ fun StepTwoContent(onNextStep: () -> Unit, totalSteps: Int) {
             },
             enabled = textValue.isNotBlank(),
             modifier = Modifier
-                .padding(top = 16.dp)
                 .fillMaxWidth()
+                .height(65.dp)
+                .padding(vertical = 8.dp),
+            colors = ButtonDefaults.buttonColors(containerColor =
+            Color(android.graphics.Color.parseColor("#179138"))),
+            elevation = ButtonDefaults.elevatedButtonElevation()
         ) {
             Text(text = "Next")
         }
@@ -408,8 +427,12 @@ fun CustomFormContent(
         Button(
             onClick = onButtonClicked,
             modifier = Modifier
-                .padding(top = 16.dp)
                 .fillMaxWidth()
+                .height(65.dp)
+                .padding(vertical = 8.dp),
+            colors = ButtonDefaults.buttonColors(containerColor =
+            Color(android.graphics.Color.parseColor("#179138"))),
+            elevation = ButtonDefaults.elevatedButtonElevation()
         ) {
             Text(text = buttonText)
         }
