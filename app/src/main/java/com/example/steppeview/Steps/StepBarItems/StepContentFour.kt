@@ -1,5 +1,4 @@
 package com.example.steppeview.Steps.StepBarItems
-
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -22,7 +21,6 @@ import com.example.steppeview.Utilis.StarRating
 fun StepFourContent(onFinish: () -> Unit) {
     var rating by remember { mutableStateOf(0) }
     var showSuccessMessage by remember { mutableStateOf(false) }
-
     if (!showSuccessMessage) {
         CustomFormContent(
             title = "Step 4: Rate with stars",
