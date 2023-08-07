@@ -20,7 +20,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.unit.dp
-import com.example.steppeview.EmojiList
+import com.example.steppeview.Utilis.EmojiList
 
 @Composable
 fun StepThreeContent(onNextStep: () -> Unit, totalSteps: Int) {

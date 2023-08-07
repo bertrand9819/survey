@@ -14,9 +14,9 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.example.steppeview.CustomFormContent
-import com.example.steppeview.RatingMessage
-import com.example.steppeview.StarRating
+import com.example.steppeview.Utilis.CustomFormContent
+import com.example.steppeview.Utilis.RatingMessage
+import com.example.steppeview.Utilis.StarRating
 
 @Composable
 fun StepFourContent(onFinish: () -> Unit) {

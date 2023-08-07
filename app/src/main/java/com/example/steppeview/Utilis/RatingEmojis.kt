@@ -1,4 +1,4 @@
-package com.example.steppeview
+package com.example.steppeview.Utilis
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -30,6 +30,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.steppeview.R
 
 @Composable
 fun EmojiList(onEmojiSelected: (String) -> Unit) {
