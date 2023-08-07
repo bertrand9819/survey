@@ -233,8 +233,8 @@ fun StepThreeContent(onNextStep: () -> Unit, totalSteps: Int) {
                 enabled = selectedEmoji.isNotEmpty(),
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(60.dp)
-                    .padding(vertical = 15.dp),
+                    .height(65.dp)
+                    .padding(vertical = 8.dp),
                 colors = ButtonDefaults.buttonColors(containerColor =
                 Color(android.graphics.Color.parseColor("#179138"))),
                 elevation = ButtonDefaults.elevatedButtonElevation()
@@ -560,6 +560,7 @@ fun CheckboxList(onOptionSelected: (String) -> Unit) {
                 Checkbox(
 
                     checked = isChecked.value,
+
                     onCheckedChange = {
                         isChecked.value = it
                         if (it) onOptionSelected(option)
@@ -571,7 +572,7 @@ fun CheckboxList(onOptionSelected: (String) -> Unit) {
             }
         }
 
-        if (index < options.size - 0) {
+        if (index < options.size - 1) {
             VerticalDivider()
         }
     }
