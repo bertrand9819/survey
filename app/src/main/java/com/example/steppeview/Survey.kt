@@ -77,10 +77,21 @@ fun QuestionnaireModalBottomSheet2(
                         .padding(16.dp)
                 ) {
                     if (showWelcomeForm) {
-                        WelcomeForm {
-                            showWelcomeForm = false
-                            scope.launch { sheetState.expand() }
-                        }
+                        WelcomeForm(
+                            onCloseClicked = {
+                                scope.launch {
+                                    sheetState.hide()
+                                }
+                            },
+                            onFormCompleted = {
+
+
+                                    showWelcomeForm = false
+                                    scope.launch { sheetState.expand() }
+
+
+                            },
+                        )
                     } else if (!showSuccessMessage) {
                         StepBar(currentStep = currentStep, totalSteps = totalSteps)
                         formSteps.getOrNull(currentStep)?.invoke {
@@ -99,70 +110,10 @@ fun QuestionnaireModalBottomSheet2(
     }
 }
 
-@Composable
-fun QuestionnaireModalBottomSheet(
-    totalSteps: Int,
-    formSteps: List<@Composable (onNextStep: () -> Unit) -> Unit>
-) {
 
-    var currentStep by remember { mutableStateOf(0) }
-    var showSuccessMessage by remember { mutableStateOf(false) }
-    var showWelcomeForm by remember { mutableStateOf(true) }
-    val scope = rememberCoroutineScope()
-    val scaffoldState = rememberBottomSheetScaffoldState()
-
-    BottomSheetScaffold(
-        scaffoldState = scaffoldState,
-        sheetPeekHeight = 100.dp,
-        sheetContent = {
-            Column(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(16.dp)
-            ) {
-                if (showWelcomeForm) {
-                    WelcomeForm {
-                        showWelcomeForm = false
-                        scope.launch { scaffoldState.bottomSheetState.expand() }
-                    }
-                } else if (!showSuccessMessage) {
-                    StepBar(currentStep = currentStep, totalSteps = totalSteps)
-                    formSteps.getOrNull(currentStep)?.invoke {
-                        if (currentStep < formSteps.size - 1) {
-                            currentStep += 1
-                        } else {
-                            showSuccessMessage = true
-                        }
-                    }
-                } else {
-                    SuccessMessageForm(onDismiss = { showSuccessMessage = false })
-                }
-            }
-        }
-    ) {
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(16.dp),
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            Text(text = "Start Questionnaire", fontSize = 20.sp)
-            Button(
-                onClick = {
-                    showWelcomeForm = true
-                    showSuccessMessage = false
-                    scope.launch{ scaffoldState.bottomSheetState.show() }
-                },
-                modifier = Modifier.padding(top = 16.dp)
-            ) {
-                Text(text = "Start")
-            }
-        }
-    }
-}
 
 @Composable
-fun WelcomeForm(onFormCompleted: () -> Unit) {
+fun WelcomeForm(onFormCompleted: () -> Unit,onCloseClicked: () -> Unit) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -176,6 +127,9 @@ fun WelcomeForm(onFormCompleted: () -> Unit) {
         ) {
             IconButton(
                 onClick = {
+
+                        onCloseClicked()
+
 
                 }
             ) {
@@ -225,12 +179,13 @@ fun WelcomeForm(onFormCompleted: () -> Unit) {
             onClick = { onFormCompleted() },
             modifier = Modifier
                 .fillMaxWidth()
-                .height(56.dp)
+                .height(65.dp)
                 .padding(vertical = 8.dp),
             colors = ButtonDefaults.buttonColors(containerColor = Color(android.graphics.Color.parseColor("#179138"))),
             elevation = ButtonDefaults.elevatedButtonElevation()
 
         ) {
+
             Text(text = "Start Questionnaire")
         }
     }
