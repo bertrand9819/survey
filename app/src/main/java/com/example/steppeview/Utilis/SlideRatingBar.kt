@@ -105,7 +105,7 @@ fun slideRating(){
             onValueChange = { sliderPosition = it.toInt() },
 
             valueRange =  0f..5f,
-            steps = 4,
+            steps = 5,
             interactionSource = interactionSource,
             onValueChangeFinished = {
 
