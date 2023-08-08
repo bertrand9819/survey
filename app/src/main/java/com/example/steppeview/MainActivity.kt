@@ -1,4 +1,4 @@
-package com.example.steppeview.Utilis
+package com.example.steppeview
 
 import android.content.res.Configuration.UI_MODE_NIGHT_YES
 import android.os.Bundle
