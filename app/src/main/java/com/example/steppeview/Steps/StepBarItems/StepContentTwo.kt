@@ -33,7 +33,7 @@ fun StepTwoContent(onNextStep: () -> Unit, totalSteps: Int) {
     var currentWordCount by remember { mutableStateOf(0) }
     val maxWordCount = 500
 
-    Spacer(modifier = Modifier.height(17.dp))
+    Spacer(modifier = Modifier.height(10.dp))
         Column(
             modifier = Modifier.fillMaxWidth()
         ) {
@@ -71,6 +71,7 @@ fun StepTwoContent(onNextStep: () -> Unit, totalSteps: Int) {
                     }
                 )
             }
+
             Row(
                 modifier = Modifier
                     .fillMaxWidth()

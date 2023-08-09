@@ -45,9 +45,9 @@ fun WelcomeForm(onFormCompleted: () -> Unit, onCloseClicked: () -> Unit) {
     ) {
         Box(
             modifier = Modifier
-                .size(45.dp)
-                .background(shape = CircleShape, color = Color.Gray.copy(0.2f))
-        )  {
+                .size(47.dp)
+                .background(shape = CircleShape, color = Color(0xFFF2F2F2))
+        ) {
             IconButton(
                 onClick = {
                     onCloseClicked()
@@ -83,6 +83,7 @@ fun WelcomeForm(onFormCompleted: () -> Unit, onCloseClicked: () -> Unit) {
                         .height(130.dp)
                         .padding(top = 16.dp, bottom = 8.dp)
                 )
+
             }
         }
 
