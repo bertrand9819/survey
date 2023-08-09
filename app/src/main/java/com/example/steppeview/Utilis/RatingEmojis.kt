@@ -56,7 +56,7 @@ fun EmojiList(onEmojiSelected: (String) -> Unit) {
         "Très Bonne"
     )
     var selectedEmojiIndex by remember { mutableStateOf<Int?>(null) }
-    Spacer(modifier = Modifier.height(21.dp))
+   /* Spacer(modifier = Modifier.height(7.dp))*/
 
     Row(
         modifier = Modifier

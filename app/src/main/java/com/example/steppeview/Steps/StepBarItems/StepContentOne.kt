@@ -23,20 +23,13 @@ import com.example.steppeview.Utilis.CheckboxList
 @Composable
 fun StepOneContent(onNextStep: () -> Unit, totalSteps: Int) {
     var selectedOption by remember { mutableStateOf("") }
-
     Column(
         modifier = Modifier
             .fillMaxWidth()
             .padding(16.dp)
     ) {
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.Center
-        ) {
-            Text(text = "veuillez choisir ?")
-        }
         CheckboxList(onOptionSelected = { selectedOption = it })
-        Spacer(modifier = Modifier.height(25.dp))
+        Spacer(modifier = Modifier.height(20.dp))
         Row(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.Center

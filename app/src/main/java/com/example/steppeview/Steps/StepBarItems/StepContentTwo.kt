@@ -1,16 +1,16 @@
 package com.example.steppeview.Steps.StepBarItems
 
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.Card
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
@@ -19,12 +19,14 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun StepTwoContent(onNextStep: () -> Unit, totalSteps: Int) {
     var textValue by remember { mutableStateOf("") }
@@ -34,43 +36,65 @@ fun StepTwoContent(onNextStep: () -> Unit, totalSteps: Int) {
             .fillMaxWidth()
             .padding(16.dp)
     ) {
-        Text(text = "Step 2: Enter your text")
-        var currentWordCount by remember { mutableStateOf(textValue.split("\\s+".toRegex()).size) }
-        Card(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(top = 16.dp),
-            shape = RoundedCornerShape(8.dp),
+
+       /* Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.Center
         ) {
             Column(
-                modifier = Modifier.padding(16.dp)
+                horizontalAlignment = Alignment.CenterHorizontally,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 16.dp)
             ) {
-                TextField(
-                    value = textValue,
-                    onValueChange = {
-                        textValue = it
-                        currentWordCount = it.split("\\s+".toRegex()).size
-                    },
-                    maxLines = Int.MAX_VALUE,
-                    textStyle = TextStyle(fontSize = 16.sp),
-                    shape = RoundedCornerShape(8.dp),
-                    colors = TextFieldDefaults.colors(
-                        disabledContainerColor = Color.Transparent,
-                        focusedIndicatorColor = Color.Transparent,
-                        unfocusedIndicatorColor = Color.Transparent
-                    )
+                Text(
+                    text = "Ajouter un commentaire",
+                    textAlign = TextAlign.Center,
+                    color = Color(0xFF1A1A1A),
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 18.sp,
                 )
-                Spacer(modifier = Modifier.height(8.dp))
+                Spacer(modifier = Modifier.height(10.dp))
             }
-        }
+        }*/
+        var  currentWordCount by remember { mutableStateOf(0) }
+
+
+        TextField(
+            value = textValue,
+            onValueChange = {
+                textValue = it
+                currentWordCount = it.split("\\s+".toRegex()).filter { it.isNotBlank() }.size
+            },
+            maxLines = Int.MAX_VALUE,
+            textStyle = TextStyle(fontSize = 16.sp),
+            shape = RoundedCornerShape(8.dp),
+            colors = TextFieldDefaults.textFieldColors(
+                containerColor = Color.White,
+                disabledTextColor = Color.Black,
+                focusedIndicatorColor = Color.White,
+                unfocusedIndicatorColor = Color.White
+            ),
+            modifier = Modifier
+                .height(150.dp)
+                .fillMaxWidth()
+                .padding(10.dp)
+                .border(width = 1.dp, color = Color(0xFF626365), shape = RoundedCornerShape(8.dp)),
+            placeholder = {
+                Text("Eclairer nous un peu sur les raisons de votre note ?")
+            }
+        )
+
         Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.End
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(end = 16.dp, top = 8.dp),
+            horizontalArrangement = Arrangement.End,
+            verticalAlignment = Alignment.CenterVertically  // Alignement vertical centré
         ) {
             Text(
-                text = "Mots: $currentWordCount/$maxWordCount",
+                text = "$currentWordCount/$maxWordCount",
                 color = if (currentWordCount <= maxWordCount) Color.Gray else Color.Red,
-                modifier = Modifier.padding(top = 8.dp)
             )
         }
         Button(

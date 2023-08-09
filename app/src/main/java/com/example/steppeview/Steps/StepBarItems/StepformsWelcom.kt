@@ -1,5 +1,6 @@
 package com.example.steppeview.Steps.StepBarItems
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -20,31 +21,36 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.font.FontStyle
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.Font
+import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.TextUnit
+import androidx.compose.ui.unit.TextUnitType
 import androidx.compose.ui.unit.dp
-import com.example.steppeview.Utilis.slideRating
+import androidx.compose.ui.unit.sp
+import com.example.steppeview.R
 
 @Composable
-fun WelcomeForm(onFormCompleted: () -> Unit,onCloseClicked: () -> Unit) {
+fun WelcomeForm(onFormCompleted: () -> Unit, onCloseClicked: () -> Unit) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(end = 16.dp),
+            .padding(end = 1.dp),
         horizontalArrangement = Arrangement.End
     ) {
         Box(
             modifier = Modifier
-                .size(48.dp)
-                .background(shape = CircleShape, color = Color.Gray.copy(0.3f))
-        ) {
+                .size(45.dp)
+                .background(shape = CircleShape, color = Color.Gray.copy(0.2f))
+        )  {
             IconButton(
                 onClick = {
-
                     onCloseClicked()
-
-
                 }
             ) {
                 Icon(
@@ -59,36 +65,75 @@ fun WelcomeForm(onFormCompleted: () -> Unit,onCloseClicked: () -> Unit) {
         modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = 16.dp, vertical = 2.dp),
-        horizontalAlignment = Alignment.CenterHorizontally
+        verticalArrangement = Arrangement.Top
     ) {
+        Box(
+            modifier = Modifier.fillMaxWidth().align(CenterHorizontally),
+            contentAlignment = Alignment.TopCenter
+        ) {
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.Center
+            ) {
+                Image(
+                    painter = painterResource(id = R.drawable.imgstart),
+                    contentDescription = "Welcome Image",
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(130.dp)
+                        .padding(top = 16.dp, bottom = 8.dp)
+                )
+
+            }
+        }
+
+        Spacer(modifier = Modifier.height(20.dp))
+
         Row(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.Center
         ) {
-
-           /* Image(
-                painter = painterResource(id = R.drawable.imgstart),
-                contentDescription = "Welcome Image",
+            Column(
+                horizontalAlignment = Alignment.CenterHorizontally,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(150.dp)
-                    .padding(top = 16.dp, bottom = 8.dp)
-            )*/
-
-            slideRating()
+                    .padding(horizontal = 16.dp)
+            ) {
+                Text(
+                    text = "Souhaitez-vous participer à notre \n enquête de " +
+                            "satisfaction en \n répondant à quelques " +
+                            "questions ?",
+                    textAlign = TextAlign.Center,
+                            letterSpacing = TextUnit(0.0F, TextUnitType.Sp),
+                lineHeight = 23.sp,
+                color = Color(0xFF1A1A1A),
+                    fontWeight = FontWeight.Bold,
+                fontSize = 18.sp,
+                    fontFamily = FontFamily.SansSerif
+                )
+                Spacer(modifier = Modifier.height(10.dp))
+            }
         }
         Row(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.Center
         ) {
-            Text(
-                text = "  Souhaitez-vous participer à notre enquête de \n" +
-                        "         satisfaction en répondant à quelques \n " +
-                        "                                  questions ?",
-                fontStyle = FontStyle.Normal
-            )
-            Spacer(modifier = Modifier.height(30.dp))
-
+            Column(
+                horizontalAlignment = Alignment.CenterHorizontally,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 16.dp)
+            ) {
+                Text(
+                    text = "Cela ne vous prendra que quelques minutes",
+                    textAlign = TextAlign.Center,
+                    letterSpacing = TextUnit(0.0F, TextUnitType.Sp),
+                    /*lineHeight = 23.sp,*/
+                    color = Color(0xFF112113),
+                    fontSize = 14.sp
+                )
+                Spacer(modifier = Modifier.height(3.dp))
+            }
         }
         Spacer(modifier = Modifier.height(10.dp))
         Button(
@@ -104,7 +149,12 @@ fun WelcomeForm(onFormCompleted: () -> Unit,onCloseClicked: () -> Unit) {
 
         ) {
 
-            Text(text = "Start Questionnaire")
+            Text(text = "Commencer",
+                fontFamily = FontFamily(Font(R.font.intersemibold)),
+                letterSpacing = TextUnit(0.0F, TextUnitType.Sp),
+                /*lineHeight = 23.sp,*/
+                color = Color(0xFFFFFFFF),
+                fontSize = 14.sp)
         }
     }
 }

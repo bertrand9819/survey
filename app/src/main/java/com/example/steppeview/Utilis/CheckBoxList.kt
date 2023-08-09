@@ -23,11 +23,10 @@ import androidx.compose.ui.unit.dp
 @Composable
 fun CheckboxList(onOptionSelected: (String) -> Unit) {
     val options = listOf(
-        "Option 1",
-        "Option 2",
-        "Option 3",
-        "Option 4",
-        "Option 5"
+        "Lorem Ipsum has been the industry",
+        "Lorem Ipsum has been",
+        "Lorem Ipsum has been the ",
+        "Lorem Ipsum has been the indus",
     )
 
     options.forEachIndexed { index, option ->

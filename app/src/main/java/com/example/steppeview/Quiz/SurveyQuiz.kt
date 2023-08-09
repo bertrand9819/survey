@@ -1,13 +1,24 @@
 package com.example.steppeview.Quiz
 
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Close
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberModalBottomSheetState
@@ -20,6 +31,11 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.TextUnit
+import androidx.compose.ui.unit.TextUnitType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.steppeview.Steps.StepBar
@@ -29,6 +45,7 @@ import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
+
 fun QuestionnaireModalBottomSheet2(
     totalSteps: Int,
     formSteps: List<@Composable (onNextStep: () -> Unit) -> Unit>
@@ -67,6 +84,7 @@ fun QuestionnaireModalBottomSheet2(
     }
     if (sheetState.isVisible) {
         ModalBottomSheet(
+
             sheetState = sheetState,
             onDismissRequest = {
                 scope.launch {
@@ -80,19 +98,81 @@ fun QuestionnaireModalBottomSheet2(
                         .padding(16.dp)
                 ) {
                     if (showWelcomeForm) {
-                        WelcomeForm(
-                            onCloseClicked = {
-                                scope.launch {
-                                    sheetState.hide()
-                                }
-                            },
-                            onFormCompleted = {
-                                showWelcomeForm = false
-                                scope.launch { sheetState.expand() }
-                            },
-                        )
+                        Box(
+                            contentAlignment = Alignment.TopEnd
+                        ) {
+                            WelcomeForm(
+                                onCloseClicked = {
+                                    scope.launch {
+                                        sheetState.hide()
+                                    }
+                                },
+                                onFormCompleted = {
+                                    showWelcomeForm = false
+                                    scope.launch { sheetState.expand() }
+                                },
+                            )
+                        }
                     } else if (!showSuccessMessage) {
+
+                        Row(  modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(end = 1.dp),
+                            horizontalArrangement = Arrangement.End) {
+
+                            Box(
+                                modifier = Modifier
+                                    .size(45.dp)
+                                    .background(shape = CircleShape, color = Color.Gray.copy(0.2f))
+                            ) {
+                                IconButton(
+                                    onClick = {
+
+                                    }
+                                ) {
+                                    Icon(
+                                        imageVector = Icons.Default.Close,
+                                        contentDescription = "Cancel Button",
+                                        tint = Color.Black
+                                    )
+                                }
+                            }
+                        }
+
+                        Row(
+                            modifier = Modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.Center
+                        ){
+                            Text(
+                                text = when (currentStep) {
+                                    0 -> "Lorem Ipsum has been the industry's " +
+                                            "standard dummy text ever since the 1500s ?"
+                                    1 -> "Lorem Ipsum has been the industry's standard dummy text " +
+                                            "ever since the 1500s ?"
+                                    2 -> "Lorem Ipsum has been the industry's " +
+                                            "standard dummy text ever since the 1500s"
+                                    3 -> "Lorem Ipsum has been the industry's " +
+                                            "standard dummy text?"
+                                    else -> ""
+                                },
+                                textAlign = TextAlign.Center,
+                                letterSpacing = TextUnit(0.0F, TextUnitType.Sp),
+                                lineHeight = 23.sp,
+                                color = Color(0xFF1A1A1A),
+                                fontWeight = FontWeight.Bold,
+                                fontSize = 18.sp,
+                                fontFamily = FontFamily.SansSerif
+                            )
+
+                        }
+
+
+                        Spacer(modifier = Modifier.height(20.dp))
+
+                        // Display the StepBar
                         StepBar(currentStep = currentStep, totalSteps = totalSteps)
+
+                        // Display the form content for the current step
                         formSteps.getOrNull(currentStep)?.invoke {
                             if (currentStep < formSteps.size - 1) {
                                 currentStep += 1
@@ -100,6 +180,7 @@ fun QuestionnaireModalBottomSheet2(
                                 showSuccessMessage = true
                             }
                         }
+
                     } else {
                         SuccessMessageForm(onDismiss = { showSuccessMessage = false })
                     }

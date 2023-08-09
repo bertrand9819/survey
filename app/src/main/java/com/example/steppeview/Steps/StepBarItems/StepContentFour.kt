@@ -2,10 +2,8 @@ package com.example.steppeview.Steps.StepBarItems
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -23,7 +21,7 @@ fun StepFourContent(onFinish: () -> Unit) {
     var showSuccessMessage by remember { mutableStateOf(false) }
     if (!showSuccessMessage) {
         CustomFormContent(
-            title = "Step 4: Rate with stars",
+            title = "",
             buttonText = "Finish",
             onButtonClicked = {
                 if (rating > 0) {
@@ -43,7 +41,7 @@ fun StepFourContent(onFinish: () -> Unit) {
                         .padding(bottom = 16.dp),
                     horizontalArrangement = Arrangement.Center
                 ) {
-                    Spacer(modifier = Modifier.size(16.dp))
+
                     StarRating(
                         maxRating = 5,
                         rating = rating,
@@ -51,7 +49,7 @@ fun StepFourContent(onFinish: () -> Unit) {
                             rating = newRating
                         }
                     )
-                    Spacer(modifier = Modifier.size(16.dp))
+
                 }
                 Row(
                     modifier = Modifier

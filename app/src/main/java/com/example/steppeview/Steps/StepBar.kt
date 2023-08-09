@@ -19,7 +19,6 @@ import androidx.compose.ui.unit.dp
 fun StepBar(currentStep: Int, totalSteps: Int) {
     CustomStepBar(currentStep = currentStep, totalSteps = totalSteps)
 }
-
 @Composable
 fun CustomStepBar(currentStep: Int, totalSteps: Int) {
     Column(
@@ -33,7 +32,7 @@ fun CustomStepBar(currentStep: Int, totalSteps: Int) {
                 Box(
                     modifier = Modifier
                         .height(16.dp)
-                        .weight(4f),
+                        .weight(10f),
                     contentAlignment = Alignment.Center
                 ) {
                     Spacer(
@@ -43,7 +42,6 @@ fun CustomStepBar(currentStep: Int, totalSteps: Int) {
                             .background(color = if (step <= currentStep) Color(android.graphics.Color.parseColor("#179138")) else androidx.compose.ui.graphics.Color.Gray)
                     )
                 }
-
                 Spacer(modifier = Modifier.width(16.dp))
             }
         }
