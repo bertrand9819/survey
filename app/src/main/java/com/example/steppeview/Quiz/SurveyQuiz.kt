@@ -45,7 +45,6 @@ import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-
 fun QuestionnaireModalBottomSheet2(
     totalSteps: Int,
     formSteps: List<@Composable (onNextStep: () -> Unit) -> Unit>
@@ -55,9 +54,11 @@ fun QuestionnaireModalBottomSheet2(
     var showWelcomeForm by remember { mutableStateOf(true) }
     val sheetState = rememberModalBottomSheetState()
     val scope = rememberCoroutineScope()
+    var temporaryStep by remember { mutableStateOf(0) }
     Column(
         modifier = Modifier
             .fillMaxSize()
+            .background(Color.White)
             .padding(16.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
@@ -84,7 +85,6 @@ fun QuestionnaireModalBottomSheet2(
     }
     if (sheetState.isVisible) {
         ModalBottomSheet(
-
             sheetState = sheetState,
             onDismissRequest = {
                 scope.launch {
@@ -95,6 +95,7 @@ fun QuestionnaireModalBottomSheet2(
                 Column(
                     modifier = Modifier
                         .fillMaxWidth()
+                        .background(Color.White)
                         .padding(16.dp)
                 ) {
                     if (showWelcomeForm) {
@@ -114,12 +115,10 @@ fun QuestionnaireModalBottomSheet2(
                             )
                         }
                     } else if (!showSuccessMessage) {
-
                         Row(  modifier = Modifier
                             .fillMaxWidth()
                             .padding(end = 1.dp),
                             horizontalArrangement = Arrangement.End) {
-
                             Box(
                                 modifier = Modifier
                                     .size(45.dp)
@@ -127,7 +126,7 @@ fun QuestionnaireModalBottomSheet2(
                             ) {
                                 IconButton(
                                     onClick = {
-
+                                        scope.launch { sheetState.hide() }
                                     }
                                 ) {
                                     Icon(
@@ -138,7 +137,6 @@ fun QuestionnaireModalBottomSheet2(
                                 }
                             }
                         }
-
                         Row(
                             modifier = Modifier.fillMaxWidth(),
                             horizontalArrangement = Arrangement.Center
@@ -163,10 +161,7 @@ fun QuestionnaireModalBottomSheet2(
                                 fontSize = 18.sp,
                                 fontFamily = FontFamily.SansSerif
                             )
-
                         }
-
-
                         Spacer(modifier = Modifier.height(20.dp))
 
                         // Display the StepBar
@@ -180,12 +175,36 @@ fun QuestionnaireModalBottomSheet2(
                                 showSuccessMessage = true
                             }
                         }
-
                     } else {
                         SuccessMessageForm(onDismiss = { showSuccessMessage = false })
                     }
                 }
             }
         )
+    }
+}
+@Composable
+fun CancelForm(
+    onCloseClicked: () -> Unit,
+    onReturnClicked: () -> Unit
+) {
+    Column(
+        // ... autres attributs de style
+    ) {
+        // ... contenu du formulaire
+
+        Button(
+            onClick = onCloseClicked,
+            // ... autres attributs du bouton
+        ) {
+            Text("Fermer le BottomSheet")
+        }
+
+        Button(
+            onClick = onReturnClicked,
+            // ... autres attributs du bouton
+        ) {
+            Text("Revenir à l'étape précédente")
+        }
     }
 }

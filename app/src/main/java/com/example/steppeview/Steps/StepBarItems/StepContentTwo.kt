@@ -19,7 +19,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
@@ -36,30 +35,7 @@ fun StepTwoContent(onNextStep: () -> Unit, totalSteps: Int) {
             .fillMaxWidth()
             .padding(16.dp)
     ) {
-
-       /* Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.Center
-        ) {
-            Column(
-                horizontalAlignment = Alignment.CenterHorizontally,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 16.dp)
-            ) {
-                Text(
-                    text = "Ajouter un commentaire",
-                    textAlign = TextAlign.Center,
-                    color = Color(0xFF1A1A1A),
-                    fontWeight = FontWeight.Bold,
-                    fontSize = 18.sp,
-                )
-                Spacer(modifier = Modifier.height(10.dp))
-            }
-        }*/
         var  currentWordCount by remember { mutableStateOf(0) }
-
-
         TextField(
             value = textValue,
             onValueChange = {
@@ -76,21 +52,20 @@ fun StepTwoContent(onNextStep: () -> Unit, totalSteps: Int) {
                 unfocusedIndicatorColor = Color.White
             ),
             modifier = Modifier
-                .height(150.dp)
+                .height(140.dp)
                 .fillMaxWidth()
-                .padding(10.dp)
+                .padding(8.dp)
                 .border(width = 1.dp, color = Color(0xFF626365), shape = RoundedCornerShape(8.dp)),
             placeholder = {
                 Text("Eclairer nous un peu sur les raisons de votre note ?")
             }
         )
-
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(end = 16.dp, top = 8.dp),
+                .padding(end = 16.dp, top = 0.dp),
             horizontalArrangement = Arrangement.End,
-            verticalAlignment = Alignment.CenterVertically  // Alignement vertical centré
+             // Alignement vertical centré
         ) {
             Text(
                 text = "$currentWordCount/$maxWordCount",
@@ -107,7 +82,7 @@ fun StepTwoContent(onNextStep: () -> Unit, totalSteps: Int) {
             enabled = textValue.isNotBlank(),
             modifier = Modifier
                 .fillMaxWidth()
-                .height(65.dp)
+                .height(63.dp)
                 .padding(vertical = 8.dp),
             colors = ButtonDefaults.buttonColors(containerColor =
             Color(android.graphics.Color.parseColor("#179138"))

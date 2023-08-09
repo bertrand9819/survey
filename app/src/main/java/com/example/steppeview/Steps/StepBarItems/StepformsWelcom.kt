@@ -83,7 +83,6 @@ fun WelcomeForm(onFormCompleted: () -> Unit, onCloseClicked: () -> Unit) {
                         .height(130.dp)
                         .padding(top = 16.dp, bottom = 8.dp)
                 )
-
             }
         }
 
