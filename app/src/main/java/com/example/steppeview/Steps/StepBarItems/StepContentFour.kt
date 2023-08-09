@@ -21,7 +21,6 @@ fun StepFourContent(onFinish: () -> Unit) {
     var showSuccessMessage by remember { mutableStateOf(false) }
     if (!showSuccessMessage) {
         CustomFormContent(
-            title = "",
             buttonText = "Finish",
             onButtonClicked = {
                 if (rating > 0) {
@@ -33,15 +32,8 @@ fun StepFourContent(onFinish: () -> Unit) {
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(horizontal = 16.dp)
+                    .padding(horizontal = 10.dp)
             ) {
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(bottom = 16.dp),
-                    horizontalArrangement = Arrangement.Center
-                ) {
-
                     StarRating(
                         maxRating = 5,
                         rating = rating,
@@ -49,19 +41,15 @@ fun StepFourContent(onFinish: () -> Unit) {
                             rating = newRating
                         }
                     )
-
-                }
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(bottom = 16.dp),
+                        .padding(bottom = 1.dp),
                     horizontalArrangement = Arrangement.Center
                 ){
                     RatingMessage(rating = rating)
                 }
             }
         }
-    } else {
-        SuccessMessageForm(onDismiss = { showSuccessMessage = false })
     }
 }

@@ -10,6 +10,7 @@ import com.example.steppeview.Steps.StepBarItems.StepTwoContent
 
 
 @Composable
+
 fun SurveyForms() {
     val totalSteps = 4
     val formSteps: List<@Composable (onNextStep: () -> Unit) -> Unit> = listOf(
@@ -17,6 +18,7 @@ fun SurveyForms() {
         { onNextStep -> StepTwoContent(onNextStep, totalSteps) },
         { onNextStep -> StepThreeContent(onNextStep, totalSteps) },
         { onFinish -> StepFourContent(onFinish) }
+
     )
     QuestionnaireModalBottomSheet2(totalSteps = totalSteps, formSteps = formSteps)
 }

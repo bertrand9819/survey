@@ -176,7 +176,10 @@ fun QuestionnaireModalBottomSheet2(
                             }
                         }
                     } else {
-                        SuccessMessageForm(onDismiss = { showSuccessMessage = false })
+                        SuccessMessageForm(onDismiss = {
+                            showSuccessMessage = false
+                            scope.launch { sheetState.hide() }
+                        })
                     }
                 }
             }
