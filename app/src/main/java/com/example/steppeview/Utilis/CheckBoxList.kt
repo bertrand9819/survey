@@ -78,7 +78,7 @@ fun CustomCheckbox(
     checked: Boolean,
     onCheckedChange: (Boolean) -> Unit,
 ) {
-    val checkboxColor = if (checked) Color(android.graphics.Color.parseColor("#179138")) else Color.Gray // Change the color to green when checked
+    val checkboxColor = if (checked) Color(android.graphics.Color.parseColor("#179138")) else Color.Gray.copy(0.2f)// Change the color to green when checked
     Checkbox(
         checked = checked,
         onCheckedChange = onCheckedChange,
