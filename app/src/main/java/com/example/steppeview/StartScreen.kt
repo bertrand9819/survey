@@ -33,30 +33,48 @@ fun MyInterface() {
 
             Column(
                 modifier = Modifier
-                    .fillMaxSize().padding(start = 20.dp)
+                    .fillMaxSize()
+                    .padding(start = 20.dp)
                     .background(color = Color.White)
             ) {
-                ImageSection()
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(324.dp)
+                        .background(Color(0xFFB9E0BD)) // Utilisation de la couleur donnée
+                ){
+
+                    Spacer(modifier = Modifier.width(112.dp))
+                    ImageSection()
+                }
+
                 Spacer(modifier = Modifier.height(30.dp)) // Ajout d'un espace
                 AppContent()
             }
-
     }
 @Composable
 fun ImageSection() {
-    Box(
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(324.dp)
-            .background(Color(0xFFB9E0BD)) // Utilisation de la couleur donnée
+    Row(
+        modifier = Modifier.fillMaxWidth().padding(top = 112.dp),
     ) {
-        Image(
-            painter = painterResource(id = R.drawable.imagesta),
-            contentDescription = "Image",
-            contentScale = ContentScale.Crop,
-            modifier = Modifier.fillMaxSize()
-        )
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(212.dp)
+                .width(304.dp)
+                .padding(start = 28.dp, end = 28.dp)
+                .background(Color(0xFFB9E0BD)) // Utilisation de la couleur donnée
+        ) {
+            Image(
+                painter = painterResource(id = R.drawable.imagesta),
+                contentDescription = "Image",
+                contentScale = ContentScale.Crop,
+                modifier = Modifier.fillMaxSize()
+            )
+        }
     }
+
+
 }
 
 @Composable
@@ -72,7 +90,8 @@ fun TwoButtonsRow(buttonTexts: List<String>,
         Button(onClick = {
 
 
-        },  colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFEFEFEF)),modifier = Modifier.weight(1f)
+        },  colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFEFEFEF)),modifier = Modifier
+            .weight(1f)
             .width(159.dp)
             .height(53.dp)
             .padding(end = 8.dp)) {
@@ -81,7 +100,8 @@ fun TwoButtonsRow(buttonTexts: List<String>,
         Spacer(modifier = Modifier.width(7.dp))
         Button(onClick = {
 
-        },  colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFEFEFEF)),modifier = Modifier.weight(1f)
+        },  colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFEFEFEF)),modifier = Modifier
+            .weight(1f)
             .width(159.dp)
             .height(53.dp)
             .padding(end = 8.dp)) {
@@ -91,15 +111,15 @@ fun TwoButtonsRow(buttonTexts: List<String>,
 }
 @Composable
 fun TwoButtonRows(buttonTexts: List<String>,
-
                   onClickButton1: () -> Unit,
                   onClickButton2: () -> Unit,
                   onClickButton3: () -> Unit,
                   onClickButton4: () -> Unit
-
 ) {
     Row(
-        modifier = Modifier.fillMaxWidth().padding(start = 20.dp),
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(start = 20.dp),
         horizontalArrangement = Arrangement.Start
     ) {
         Text(
