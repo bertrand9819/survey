@@ -86,20 +86,12 @@ fun WelcomeForm(onFormCompleted: () -> Unit, onCloseClicked: () -> Unit) {
 
             }
         }
-
-        Spacer(modifier = Modifier.height(20.dp))
-
+        Spacer(modifier = Modifier.height(10.dp))
         Row(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.Center
         ) {
-            Column(
-                horizontalAlignment = Alignment.CenterHorizontally,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 16.dp)
-            ) {
-                Text(
+            Text(
                     text = "Souhaitez-vous participer à notre \n enquête de " +
                             "satisfaction en \n répondant à quelques " +
                             "questions ?",
@@ -111,19 +103,14 @@ fun WelcomeForm(onFormCompleted: () -> Unit, onCloseClicked: () -> Unit) {
                 fontSize = 18.sp,
                     fontFamily = FontFamily.SansSerif
                 )
-                Spacer(modifier = Modifier.height(10.dp))
+
             }
-        }
+        Spacer(modifier = Modifier.height(10.dp))
+
         Row(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.Center
         ) {
-            Column(
-                horizontalAlignment = Alignment.CenterHorizontally,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 16.dp)
-            ) {
                 Text(
                     text = "Cela ne vous prendra que quelques minutes",
                     textAlign = TextAlign.Center,
@@ -132,8 +119,8 @@ fun WelcomeForm(onFormCompleted: () -> Unit, onCloseClicked: () -> Unit) {
                     color = Color(0xFF112113),
                     fontSize = 14.sp
                 )
-                Spacer(modifier = Modifier.height(3.dp))
-            }
+
+
         }
         Spacer(modifier = Modifier.height(10.dp))
         Button(

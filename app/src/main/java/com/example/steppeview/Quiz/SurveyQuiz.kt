@@ -96,12 +96,11 @@ fun QuestionnaireModalBottomSheet2(
                     modifier = Modifier
                         .fillMaxWidth()
                         .background(Color.White)
-                        .padding(16.dp)
+                        .padding(16.dp),
+                    verticalArrangement = Arrangement.Center
                 ) {
                     if (showWelcomeForm) {
-                        Box(
-                            contentAlignment = Alignment.TopEnd
-                        ) {
+
                             WelcomeForm(
                                 onCloseClicked = {
                                     scope.launch {
@@ -113,7 +112,7 @@ fun QuestionnaireModalBottomSheet2(
                                     scope.launch { sheetState.expand() }
                                 },
                             )
-                        }
+
                     } else if (!showSuccessMessage) {
                         Row(  modifier = Modifier
                             .fillMaxWidth()
