@@ -42,10 +42,6 @@ fun MyInterface() {
             }
 
     }
-
-
-
-
 @Composable
 fun ImageSection() {
     Box(
@@ -63,11 +59,6 @@ fun ImageSection() {
     }
 }
 
-
-
-
-
-
 @Composable
 fun TwoButtonsRow(buttonTexts: List<String>,
                   onClickButton1: () -> Unit,
@@ -79,6 +70,7 @@ fun TwoButtonsRow(buttonTexts: List<String>,
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
         Button(onClick = {
+
 
         },  colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFEFEFEF)),modifier = Modifier.weight(1f)
             .width(159.dp)
@@ -135,13 +127,15 @@ fun TwoButtonRows(buttonTexts: List<String>,
 
 @Composable
 fun AppContent() {
-    val buttonTexts = listOf("Button 1", "Button 2", "Button 3", "Button 4")
+    val buttonTexts = listOf("Short survey", "Long Survey", "Star rating", "Slider Rating")
       TwoButtonRows(buttonTexts = buttonTexts,
           onClickButton1 = {  },
-          onClickButton2 = { },
+          onClickButton2 = {  },
           onClickButton3 = {  },
-          onClickButton4 = { }
+          onClickButton4 = {  }
       )
 }
+
+
 
 
