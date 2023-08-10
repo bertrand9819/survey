@@ -103,9 +103,8 @@ fun WelcomeForm(onFormCompleted: () -> Unit, onCloseClicked: () -> Unit) {
                 fontSize = 18.sp,
                     fontFamily = FontFamily.SansSerif
                 )
-
+                Spacer(modifier = Modifier.height(10.dp))
             }
-        Spacer(modifier = Modifier.height(10.dp))
 
         Row(
             modifier = Modifier.fillMaxWidth(),
@@ -119,7 +118,7 @@ fun WelcomeForm(onFormCompleted: () -> Unit, onCloseClicked: () -> Unit) {
                     color = Color(0xFF112113),
                     fontSize = 14.sp
                 )
-
+                Spacer(modifier = Modifier.height(3.dp))
 
         }
         Spacer(modifier = Modifier.height(10.dp))
