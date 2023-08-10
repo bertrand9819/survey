@@ -106,7 +106,6 @@ fun slideRating() {
             steps = 5,
             interactionSource = interactionSource,
             onValueChangeFinished = {
-
             },
             thumb = {
                 val shape = RoundedCornerShape(4.dp)

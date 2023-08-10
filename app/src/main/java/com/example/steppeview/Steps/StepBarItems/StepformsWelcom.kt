@@ -1,5 +1,4 @@
 package com.example.steppeview.Steps.StepBarItems
-
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -83,7 +82,6 @@ fun WelcomeForm(onFormCompleted: () -> Unit, onCloseClicked: () -> Unit) {
                         .height(130.dp)
                         .padding(top = 16.dp, bottom = 8.dp)
                 )
-
             }
         }
         Spacer(modifier = Modifier.height(20.dp))
@@ -105,7 +103,6 @@ fun WelcomeForm(onFormCompleted: () -> Unit, onCloseClicked: () -> Unit) {
                 )
                 Spacer(modifier = Modifier.height(10.dp))
             }
-
         Row(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.Center
@@ -138,9 +135,7 @@ fun WelcomeForm(onFormCompleted: () -> Unit, onCloseClicked: () -> Unit) {
             Color(android.graphics.Color.parseColor("#179138"))
             ),
             elevation = ButtonDefaults.elevatedButtonElevation()
-
         ) {
-
             Text(text = "Commencer",
                 fontFamily = FontFamily(Font(R.font.intersemibold)),
                 letterSpacing = TextUnit(0.0F, TextUnitType.Sp),
