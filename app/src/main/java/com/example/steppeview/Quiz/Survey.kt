@@ -1,7 +1,6 @@
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
-import com.example.steppeview.MyInterface
 import com.example.steppeview.Quiz.QuestionnaireModalBottomSheet2
 import com.example.steppeview.Steps.StepBarItems.StepFourContent
 import com.example.steppeview.Steps.StepBarItems.StepOneContent
@@ -21,5 +20,5 @@ fun SurveyForms() {
 @Preview
 @Composable
 fun PreviewQuestionnaireModalBottomSheet() {
-    MyInterface()
+    SurveyForms()
 }

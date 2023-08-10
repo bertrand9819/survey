@@ -35,7 +35,7 @@ fun MyInterface() {
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(start = 20.dp)
-                    .background(color = Color.White)
+                    .background(color = Color(0xFFFAFAFA))
             ) {
                 Box(
                     modifier = Modifier
@@ -74,7 +74,6 @@ fun ImageSection() {
         }
     }
 
-
 }
 
 @Composable
@@ -88,8 +87,6 @@ fun TwoButtonsRow(buttonTexts: List<String>,
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
         Button(onClick = {
-
-
         },  colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFEFEFEF)),modifier = Modifier
             .weight(1f)
             .width(159.dp)
@@ -99,7 +96,6 @@ fun TwoButtonsRow(buttonTexts: List<String>,
         }
         Spacer(modifier = Modifier.width(7.dp))
         Button(onClick = {
-
         },  colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFEFEFEF)),modifier = Modifier
             .weight(1f)
             .width(159.dp)

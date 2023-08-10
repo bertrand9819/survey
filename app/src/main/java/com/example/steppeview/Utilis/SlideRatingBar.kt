@@ -93,18 +93,16 @@ fun RatingBar(
 }*/
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun slideRating(){
+fun slideRating() {
     var sliderPosition by remember { mutableIntStateOf(0) }
     val interactionSource = remember { MutableInteractionSource() }
     Column {
         Slider(
             modifier = Modifier
-                .semantics { contentDescription = "Localized Description" }
-                ,
+                .semantics { contentDescription = "Localized Description" },
             value = sliderPosition.toFloat(),
             onValueChange = { sliderPosition = it.toInt() },
-
-            valueRange =  0f..5f,
+            valueRange = 0f..5f,
             steps = 5,
             interactionSource = interactionSource,
             onValueChangeFinished = {
@@ -112,9 +110,11 @@ fun slideRating(){
             },
             thumb = {
                 val shape = RoundedCornerShape(4.dp)
+                val color = Color(android.graphics.Color.parseColor("#179138"))
                 Box(
                     modifier = Modifier
                         .size(34.dp, 50.dp)
+                        .background(color = color, shape)
                         .indication(
                             interactionSource = interactionSource,
                             indication = rememberRipple(
@@ -122,19 +122,20 @@ fun slideRating(){
                                 radius = 20.dp
                             )
                         )
-                        .hoverable(interactionSource = interactionSource)
-                        .background( Color(android.graphics.Color.parseColor("#179138")), shape),
+                        .hoverable(interactionSource = interactionSource),
                     contentAlignment = Alignment.Center
-                ){
+                ) {
                     Text(
                         text = sliderPosition.toString(),
                         color = Color.White,
                         style = TextStyle(
                             fontSize = 20.sp
-                        )// Changer la couleur du texte ici
+                        )
                     )
                 }
-            },
+            }
         )
     }
 }
+
+

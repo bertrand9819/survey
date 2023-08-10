@@ -72,7 +72,8 @@ fun EmojiList(onEmojiSelected: (String) -> Unit) {
                 modifier = Modifier.clickable {
                     onEmojiSelected(emojiLabels[index])
                     selectedEmojiIndex = if (isSelected) null else index
-                }
+                },
+                horizontalAlignment = Alignment.CenterHorizontally // Center the emoji and label horizontally
             ) {
                 Box(
                     modifier = Modifier
@@ -105,18 +106,7 @@ fun EmojiList(onEmojiSelected: (String) -> Unit) {
 
                 if (isSelected) {
                     Spacer(modifier = Modifier.height(2.dp))
-
-                    TextWithLineBreak(text = emojiLabels[index] )
-
-                   /* Text(
-                        text = emojiLabels[index],
-                        fontSize = 14.sp,
-                        color = Color.Black,
-                        textAlign = TextAlign.Center,
-                        maxLines = 2,
-                        overflow = TextOverflow.Ellipsis,
-                        fontWeight = FontWeight.Bold
-                    )*/
+                    TextWithLineBreak(text = emojiLabels[index])
                 }
             }
         }
@@ -126,7 +116,11 @@ fun EmojiList(onEmojiSelected: (String) -> Unit) {
 @Composable
 fun TextWithLineBreak(text: String, maxLineLength: Dp = Dp.Unspecified) {
     val words = text.split(" ")
-    Column {
+    Column(
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally // Center the text horizontally
+    ) {
+
         words.forEachIndexed { index, word ->
             Text(
                 text = word,
@@ -139,9 +133,10 @@ fun TextWithLineBreak(text: String, maxLineLength: Dp = Dp.Unspecified) {
             )
             if (index < words.size - 1) {
                 Spacer(
-                    modifier = Modifier.height(4.dp)
+                    modifier = Modifier.height(2.dp)
                 )
             }
         }
     }
 }
+
