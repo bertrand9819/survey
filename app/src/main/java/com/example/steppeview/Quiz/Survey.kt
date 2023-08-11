@@ -8,7 +8,6 @@ import com.example.steppeview.Steps.StepBarItems.StepOneContent
 import com.example.steppeview.Steps.StepBarItems.StepThreeContent
 import com.example.steppeview.Steps.StepBarItems.StepTwoContent
 @Composable
-
 fun SurveyForms() {
     val totalSteps = 4
     val formSteps: List<@Composable (onNextStep: () -> Unit) -> Unit> = listOf(

@@ -1,6 +1,5 @@
 package com.example.steppeview
 
-import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -15,13 +14,16 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Text
+import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -29,6 +31,17 @@ import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.TextUnitType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
+import com.example.steppeview.Quiz.QuestionnaireModalBottomSheet2
+import com.example.steppeview.Steps.StepBarItems.StepFourContent
+import com.example.steppeview.Steps.StepBarItems.StepOneContent
+import com.example.steppeview.Steps.StepBarItems.StepThreeContent
+import com.example.steppeview.Steps.StepBarItems.StepTwoContent
+import com.example.steppeview.Utilis.slideRating
+import kotlinx.coroutines.launch
 
 @Composable
 fun MyInterface() {
@@ -47,7 +60,24 @@ fun MyInterface() {
             Spacer(modifier = Modifier.width(112.dp))
             ImageSection()
         }
-        Spacer(modifier = Modifier.height(30.dp)) // Ajout d'un espace
+        Spacer(modifier = Modifier.height(30.dp))
+           Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(start = 20.dp),
+        horizontalArrangement = Arrangement.Start
+    ) {
+        Text(
+            text = "In app Survey",
+            textAlign = TextAlign.Start,
+            letterSpacing = TextUnit(0.0F, TextUnitType.Sp),
+
+            color = Color(0xFF1A1A1A),
+            fontSize = 38.sp,
+            fontWeight = FontWeight.Bold
+        )
+    }
+    Spacer(modifier = Modifier.height(20.dp))
         AppContent()
     }
 }
@@ -76,85 +106,125 @@ fun ImageSection() {
 }
 
 @Composable
-fun TwoButtonsRow(buttonTexts: List<String>,
-                  onClickButton1: () -> Unit,
-                  onClickButton2: () -> Unit) {
+fun SingleButton(text: String, onClick: () -> Unit) {
+    Button(
+        onClick = onClick,
+        shape = RectangleShape,
+        colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFEFEFEF)),
+        modifier = Modifier
+            .width(159.dp)
+            .height(53.dp)
+            .padding(end = 8.dp)
+    ) {
+        Text(text = text, color = Color(0xFF112113))
+    }
+}
+@Composable
+fun TwoButtonsRow(
+    buttonTexts: List<String>,
+    onClickButton1: () -> Unit,
+    onClickButton2: () -> Unit
+) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
             .padding(4.dp),
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
-        Button(
-            onClick = onClickButton1,
-            shape = RectangleShape,
-            colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFEFEFEF)),
-            modifier = Modifier
-                .weight(1f)
-                .width(159.dp)
-                .height(53.dp)
-                .padding(end = 8.dp)
-        ) {
-            Text(text = buttonTexts[0], color = Color(0xFF112113))
-        }
+        SingleButton(buttonTexts[0], onClickButton1)
         Spacer(modifier = Modifier.width(7.dp))
-        Button(
-            onClick = onClickButton2,
-            shape = RectangleShape,
-            colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFEFEFEF)),
-            modifier = Modifier
-                .weight(1f)
-                .width(159.dp)
-                .height(53.dp)
-                .padding(end = 8.dp)
-        ) {
-            Text(text = buttonTexts[1], color = Color(0xFF112113))
-        }
+        SingleButton(buttonTexts[1], onClickButton2)
     }
 }
-
 @Composable
-fun TwoButtonRows(buttonTexts: List<String>,
-                  onClickButton1: () -> Unit,
-                  onClickButton2: () -> Unit,
-                  onClickButton3: () -> Unit,
-                  onClickButton4: () -> Unit
-) {
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(start = 20.dp),
-        horizontalArrangement = Arrangement.Start
-    ) {
-        Text(
-            text = "In app Survey",
-            textAlign = TextAlign.Start,
-            letterSpacing = TextUnit(0.0F, TextUnitType.Sp),
-            /*lineHeight = 23.sp,*/
-            color = Color(0xFF1A1A1A),
-            fontSize = 38.sp,
-            fontWeight = FontWeight.Bold
-        )
-    }
-    Spacer(modifier = Modifier.height(10.dp))
+fun TwoButtonRows(buttonTexts: List<String>, onClickCallbacks: List<() -> Unit>) {
+
     Column(
         modifier = Modifier
             .fillMaxWidth()
             .padding(10.dp)
     ) {
-        TwoButtonsRow(buttonTexts = buttonTexts.subList(0, 2),onClickButton1, onClickButton2)
+        TwoButtonsRow(buttonTexts = buttonTexts.subList(0, 2),
+            onClickButton1 = onClickCallbacks[0],
+            onClickButton2 = onClickCallbacks[1])
         Spacer(modifier = Modifier.height(4.dp))
-        TwoButtonsRow(buttonTexts = buttonTexts.subList(2, 4),onClickButton3, onClickButton4)
+        TwoButtonsRow(buttonTexts = buttonTexts.subList(2, 4),
+            onClickButton1 = onClickCallbacks[2],
+            onClickButton2 = onClickCallbacks[3])
     }
 }
 @Composable
+fun ShortSurveyScreen() {
+
+}
+
+
+@Composable
+fun LongSurveyScreen() {
+
+}
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
 fun AppContent() {
-    val contextForToast = LocalContext.current.applicationContext
     val buttonTexts = listOf("Short survey", "Long Survey", "Star rating", "Slider Rating")
-    TwoButtonRows(buttonTexts = buttonTexts,
-        onClickButton1 = { Toast.makeText(contextForToast, "Short survey!", Toast.LENGTH_SHORT).show() },
-        onClickButton2 = { Toast.makeText(contextForToast, "Long Survey!", Toast.LENGTH_SHORT).show() },
-        onClickButton3 = { Toast.makeText(contextForToast, "Star rating!", Toast.LENGTH_SHORT).show() },
-        onClickButton4 = { Toast.makeText(contextForToast, "Slider Rating!", Toast.LENGTH_SHORT).show() }
+    val navController= rememberNavController()
+    val sheetState = rememberModalBottomSheetState()
+    val scope = rememberCoroutineScope()
+    NavHost(navController, startDestination = "home") {
+        composable("home")
+        { TwoButtonRows(buttonTexts = buttonTexts, onClickCallbacks = onClickCallbacks(navController)) }
+        composable("shortSurvey") {
+            ShortSurveyScreen()
+        }
+        composable("longSurvey") {
+
+            val totalSteps = 4
+            val formSteps: List<@Composable (onNextStep: () -> Unit) -> Unit> = listOf(
+                { onNextStep -> StepOneContent(onNextStep, totalSteps) },
+                { onNextStep -> StepTwoContent(onNextStep, totalSteps) },
+                { onNextStep -> StepThreeContent(onNextStep, totalSteps) },
+                { onFinish -> StepFourContent(onFinish) }
+            )
+            QuestionnaireModalBottomSheet2(totalSteps = totalSteps, formSteps = formSteps)
+
+
+
+        }
+        composable("Slider Rating") {
+
+            ModalBottomSheet(
+                sheetState = sheetState,
+                onDismissRequest = {
+                    scope.launch {
+                        sheetState.hide()
+                    }
+                },
+                content = {
+                    slideRating()
+                }
+            )
+
+        }
+    }
+}
+private fun onClickCallbacks(navController: NavHostController): List<() -> Unit> {
+    return listOf(
+        { navController.navigate("shortSurvey") },
+        { navController.navigate("longSurvey") },
+        { navController.navigate("Slider Rating")},
+        { navController.navigate("Star rating") }
     )
 }
+
+
+
+
+
+
+
+
+
+
+
+
+

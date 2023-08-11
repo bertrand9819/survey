@@ -185,28 +185,3 @@ fun QuestionnaireModalBottomSheet2(
         )
     }
 }
-@Composable
-fun CancelForm(
-    onCloseClicked: () -> Unit,
-    onReturnClicked: () -> Unit
-) {
-    Column(
-        // ... autres attributs de style
-    ) {
-        // ... contenu du formulaire
-
-        Button(
-            onClick = onCloseClicked,
-            // ... autres attributs du bouton
-        ) {
-            Text("Fermer le BottomSheet")
-        }
-
-        Button(
-            onClick = onReturnClicked,
-            // ... autres attributs du bouton
-        ) {
-            Text("Revenir à l'étape précédente")
-        }
-    }
-}
